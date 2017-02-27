@@ -1,43 +1,52 @@
-let array, myArray, oldArray, newArray;
-let string, myString, oldString, newString;
-let val, myVal, singleVal;
-let data, myData;
-
-
 /**
  * ==========================
- *  ARRAY FUNCTIONS PRACTICE
+ *  ARRAY FUNCTIONS EXAMPLES
  * ==========================
  */
 
 
-// Use the map function to add 3 to every value in the variable oldArray, and save the results into variable newArray. oldArray should not change.
-oldArray = [4, 3, 1];
+/** 
+ *  MAP
+ *    -> Add 5 to each value in the array
+ */
+const add5 = arr => {
+  return arr.map(x => {
+    return x + 5;
+  });
+};
 
-newArray = oldArray.map(x => {
-  return x + 5;
-});
 
-// Use the reduce method to sum all the values in array and assign it to singleVal.
-array = [4, 5, 6, 7, 8];
+/**
+ *  REDUCE
+ *    -> Sum all the values in the array
+ */
+const sumArray = arr => {
+  return arr.reduce((x, y) => {
+    return x + y;
+  });
+};
 
-singleVal = array.reduce((x, y) => {
-  return x + y;
-});
 
-// Use filter to create a new array with all the values from oldArray which are less than 6. The oldArray should not change.
-oldArray = [1,2,3,4,5,6,7,8,9,10];
+/**
+ *  FILTER
+ *    -> Return all values in array smaller than 6
+ */
+const smallerThan6 = arr => {
+  return arr.filter(x => {
+    return x < 6;
+  });
+};
 
-newArray = oldArray.filter(x => {
-   return x < 6;
-});
 
-// Use sort to sort array from largest to smallest.
-array = [1, 4, 12, 2];
-
-array.sort((x, y) => {
-  return y - x;
-});
+/**
+ *  SORT
+ *    -> Sort the array from largest to smallest
+ */
+const sortLargeToSmall = arr => {
+  return sort((x, y) => {
+    return y - x;
+  });
+};
 
 
 /**
@@ -119,3 +128,7 @@ const largestOfFour = arr => {
   });
 };
 
+
+/**
+ *  
+ */
