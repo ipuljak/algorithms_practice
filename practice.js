@@ -3,14 +3,15 @@ let string, myString, oldString, newString;
 let val, myVal, singleVal;
 let data, myData;
 
+
 /**
  * ==========================
  *  ARRAY FUNCTIONS PRACTICE
  * ==========================
  */
 
-// Use the map function to add 3 to every value in the variable oldArray, and save the results into variable newArray. oldArray should not change.
 
+// Use the map function to add 3 to every value in the variable oldArray, and save the results into variable newArray. oldArray should not change.
 oldArray = [4, 3, 1];
 
 newArray = oldArray.map(x => {
@@ -18,7 +19,6 @@ newArray = oldArray.map(x => {
 });
 
 // Use the reduce method to sum all the values in array and assign it to singleVal.
-
 array = [4, 5, 6, 7, 8];
 
 singleVal = array.reduce((x, y) => {
@@ -26,7 +26,6 @@ singleVal = array.reduce((x, y) => {
 });
 
 // Use filter to create a new array with all the values from oldArray which are less than 6. The oldArray should not change.
-
 oldArray = [1,2,3,4,5,6,7,8,9,10];
 
 newArray = oldArray.filter(x => {
@@ -34,18 +33,19 @@ newArray = oldArray.filter(x => {
 });
 
 // Use sort to sort array from largest to smallest.
-
 array = [1, 4, 12, 2];
 
 array.sort((x, y) => {
   return y - x;
 });
 
+
 /**
  * ===========================
  *      BASIC ALGORITHMS
  * ===========================
  */
+
 
 /**
  *  1. Reverse a string
@@ -54,6 +54,7 @@ const reverseString = str => {
   // Use the array's reverse function to help reverse the string
   return str.split('').reverse().join('');
 };
+
 
 /**
  *  2. Factorialize a number
@@ -67,6 +68,7 @@ const factorialize = num => {
   return count;
 };
 
+
 /**
  *  3. Check for palindromes
  */
@@ -76,6 +78,7 @@ const isPalindrome = str => {
   // Compare the string to it's reversed copy
   return str === str.split('').reverse().join('');
 };
+
 
 /**
  *  4. Find the length of the longest word in a string
@@ -89,6 +92,7 @@ const findLongestWord = str => {
   return longestWord.length;
 };
 
+
 /** 
  *  5. Return the string with the first letter of each word capitalized
  */
@@ -100,6 +104,7 @@ const capitalizeAll = str => {
   });
   return capitalized.join(' ');
 };
+
 
 /**
  *  6. Return the largest number from each sub-array of an array
@@ -114,4 +119,3 @@ const largestOfFour = arr => {
   });
 };
 
-console.log(largestOfFour([[13, 27, 18, 26], [4, 5, 1, 3], [32, 35, 37, 39], [1000, 1001, 857, 1]]));
