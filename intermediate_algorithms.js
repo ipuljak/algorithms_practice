@@ -138,5 +138,180 @@ const translatePigLatin = str => {
 
 
 /**
- *  7. 
+ *  7. Take each character, get its pair, and return the results as a 2D array
+ *     Base pairs are a pair of AT and CG
+ */
+const pairElement = str => {
+  // Define all of the possible pairings
+  const pairs = {
+    A: 'T',
+    T: 'A',
+    C: 'G',
+    G: 'C'
+  };
+  // Create all of the pairs
+  let letters = str.split('');
+  return letters.map(x => {
+    return [x, pairs[x]];
+  });
+};
+
+
+/**
+ *  8. Find the missing leters in the alphabetic letter range
+ */
+const fearNotLetter = str => {
+  let letters = str.split('');
+  // Observe each letter
+  for (var x = 0; x < letters.length - 1; x++) {
+    // If the next charCode is not an increment of 1, return the next charCode
+    if (letters[x].charCodeAt() + 1 !== letters[x + 1].charCodeAt()) {
+      return String.fromCharCode(letters[x].charCodeAt() + 1);
+    }
+  }
+  return undefined;
+};
+
+
+/**
+ *  9. Check if a value is classified as a boolean primitive
+ */
+const booWho = bool => {
+  return typeof (bool) === 'boolean';
+};
+
+
+/**
+ *  10. Takes two or more arrays and returns a new array of unique values
+ *      in the original order
+ */
+// Have to use standard function notation to access arguments object
+function uniteUnique(arr) {
+  // Access all of the arguments
+  const args = Array.from(arguments);
+  // Flatten the arguments into one array
+  let flattened = args.reduce((x, y) => {
+    return x.concat(y);
+  });
+  // Push unique arguments into a new array as they are read in
+  let uniques = [];
+  flattened.forEach(x => {
+    if (!uniques.includes(x)) {
+      uniques.push(x);
+    }
+  });
+  return uniques;
+}
+
+
+/**
+ *  11. Convert the characters &, <, >, ", ' in a string to their HTML entities
+ */
+const convertHTML = str => {
+  let letters = str.split('');
+  return letters.map(x => {
+    switch (x) {
+      case '&':
+        return '&amp;';
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      case '"':
+        return '&​quot;';
+      case "'":
+        return '&​apos;';
+      default:
+        return x;
+    }
+  }).join('');
+};
+
+
+/**
+ *  12. Convert a string to spinal case
+ */
+const spinalCase = str => {
+  str = str
+    // Greedily add a '-' in front of every capitalized letter
+    .replace(/[A-Z]/g, x => {
+      return '-' + x.toLowerCase();
+    })
+    // Replace all special characters including spaces with a '-'
+    .replace(/(?:[\W_]{1,})/gi, x => {
+      return '-';
+    });
+  // Remove a '-' from the head if it exists
+  return str[0] === '-' ? str.slice(1) : str;
+};
+
+
+/**
+ *  13. Sum all odd fibonacci numbers
+ */
+const sumFibs = num => {
+  let fibs = [1];
+  let counter = 1;
+  // Get the list of fibonaccis
+  while (counter <= num) {
+    fibs.unshift(counter);
+    counter = fibs[0] + fibs[1];
+  }
+  // Sum all of the odd fibonaccis
+  return fibs.reduce((x, y) => {
+    return y % 2 ? x : x + y;
+  });
+};
+
+
+/**
+ *  14. Sum all of the primes up to and including the given number
+ */
+const sumPrimes = num => {
+  // Return true if a number is a prime
+  const isPrime = num => {
+    if (num === 2) return true;
+    if (num > 2) {
+      for (var x = 2; x < num; x++) {
+        if ((num % x) === 0) return false;
+      }
+      return true;
+    }
+    return false;
+  };
+  // Calculate the sum of all the primes in the range from 0 -> num
+  let sum = 0;
+  for (var x = 0; x <= num; x++) {
+    if (isPrime(x)) sum += x;
+  }
+  return sum;
+};
+
+
+/**
+ *  15. Find the smallest common multiple that can be evenly divided by both
+ *      as well as by all the sequential numbers in the range between them
+ */
+const smallestCommons = arr => {
+  // Returns true if each number in arr divides evenly in multiple
+  const checkCommons = (arr, multiple) => {
+    for (var x = arr[0]; x < arr[1]; x++) {
+      if ((multiple % x) !== 0) return false;
+    }
+    return true;
+  };
+  // Sort the array
+  arr = arr.sort((x, y) => x - y);
+  // Check commons for all values for each multiple of arr's max value
+  let multiple = arr[1];
+  while (!checkCommons(arr, multiple)) {
+    multiple += arr[1];
+  }
+  return multiple;
+};
+
+
+/**
+ *  16. Looks through an array (first argument) that returns the first element
+ *      in the array that passes a truth test (second argument)
  */
