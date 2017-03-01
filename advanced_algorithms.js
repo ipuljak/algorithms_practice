@@ -75,5 +75,110 @@ const updateRecords = (id, prop, value) => {
 
 
 /**
- *  3. 
+ *  3. Create a function that takes two or more arrays and returns an array of
+ *     the symmetrical difference of the provided arrays
  */
+// Have to use standard function notation to access arguments object
+function sym(args) {
+  // Access all of the arguments
+  const arrs = Array.prototype.slice.call(arguments);
+  // Compute the symmetrical difference between two arrays
+  function symDiff(arr1, arr2) {
+    let diff = [];
+    // Find unique values in the first array
+    for (var x = 0; x < arr1.length; x++) {
+      if (!diff.includes(arr1[x]) && !arr2.includes(arr1[x])) {
+        diff.push(arr1[x]);
+      }
+    }
+    // Find unique values in the second array
+    for (var x = 0; x < arr2.length; x++) {
+      if (!diff.includes(arr2[x]) && !arr1.includes(arr2[x])) {
+        diff.push(arr2[x]);
+      }
+    }
+    return diff;
+  }
+  // Compute the symmetrical difference across all arrays
+  return arrs.reduce(symDiff);
+}
+
+
+/**
+ *  4. Design a cash register drawer that accepts purchase price (first argument)
+ *     payment (second argument), and cash in drawer (third argument)
+ */
+
+// Example:
+
+// checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], 
+// ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], 
+// ["ONE HUNDRED", 100.00]]) 
+
+// should return:
+
+// [["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 15.00], ["ONE", 1.00], ["QUARTER", 0.50], 
+// ["DIME", 0.20], ["PENNY", 0.04]]
+
+const checkCashRegister = (price, cash, cid) => {
+  // Money value definitions
+  const values = {
+    'PENNY': 0.01,
+    'NICKEL': 0.05,
+    'DIME': 0.10,
+    'QUARTER': 0.25,
+    'ONE': 1.00,
+    'FIVE': 5.00,
+    'TEN': 10.00,
+    'TWENTY': 20.00,
+    'ONE HUNDRED': 100.00
+  };
+
+  // Calculate the total amount in the register
+  const calculateCID = cid => {
+    return cid.reduce((x, y) => {
+      return x + y[1];
+    },0).toFixed(2);
+  };
+
+  // Get the register's total
+  const total = calculateCID(cid);
+  // Check if we have sufficient funds
+  if (cash-price > total) {
+    return 'Insufficient Funds';
+  }
+  // If we use up all of our funds, close up shop
+  if (cash-price == total) {
+    return 'Closed';
+  }
+
+  // Define some variables to maintain as we give out the change
+  let change = parseFloat((cash - price).toFixed(2));
+  let returned = [];
+  let current = [];
+  cid = cid.reverse();
+
+  // Go through each type of value, largest to smallest
+  for (var x = 0; x < cid.length; x++) {
+    current = [cid[x][0], 0.00];
+    // While we can give out sufficient change with a particular value
+    while (change >= values[cid[x][0]] && cid[x][1] > 0) {
+      // Add the currency amount to the currently observed value type
+      current[1] = parseFloat((current[1] + values[cid[x][0]]).toFixed(2));
+      // Subtract the amount we used from the change register
+      cid[x][1] = parseFloat((cid[x][1] - values[cid[x][0]]).toFixed(2));
+      // Subtract the amount we used from the remaining change need
+      change = parseFloat((change - values[cid[x][0]]).toFixed(2));
+    }
+    // If we used the current currency value, add it to the returned array
+    if (current[1] != 0) {
+      returned.push(current);
+    }
+  }
+  // It wasn't possible to give this amount of change back
+  if (change > 0) {
+    return 'Insufficient Funds';
+  }
+  // Finally return the array with items by largest to smallest value type
+  return returned;
+};
