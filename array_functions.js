@@ -23,7 +23,7 @@ const add5 = arr => {
 const sumArray = arr => {
   return arr.reduce((x, y) => {
     return x + y;
-  });
+  }, 0);
 };
 
 

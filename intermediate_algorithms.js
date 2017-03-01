@@ -315,3 +315,86 @@ const smallestCommons = arr => {
  *  16. Looks through an array (first argument) that returns the first element
  *      in the array that passes a truth test (second argument)
  */
+const findElement = (arr, func) => {
+  return arr.filter(func)[0];
+};
+
+
+/**
+ *  17. Drop the elements of an array (first argument) starting from the front 
+ *      until the predicate (second argument) returns true
+ */
+const dropElements = (arr, func) => {
+  // Return the remaining part of the array once the predicate returns true
+  for (var x = 0; x < arr.length; x++) {
+    if (func(arr[x])) {
+      return arr.slice(x);
+    }
+  }
+  // Return an empty array if nothing returned true
+  return [];
+};
+
+
+/**
+ *  18. Flatten a nested array ****************
+ */
+const steamrollArray = arr => {
+  return arr.reduce((x, y) => {
+    return x.concat(Array.isArray(y) ? steamrollArray(y) : y);
+    // Need to have initial value to build the array from
+  }, []);
+};
+
+
+/**
+ *  19. Return an english translated sentence of the passed binary string
+ */
+const binaryAgent = str => {
+  let characters = str.split(' ');
+  // Go through each binary string and convert it to it's char code letter
+  return characters.map(x => {
+    return String.fromCharCode(parseInt(x, 2));
+  }).join('');
+};
+
+
+/**
+ *  20. Check if the predicate (second argument) is truthy on all elements
+ *      of a collection (first argument)
+ */
+const truthCheck = (collection, pre) => {
+  // Go through every object in the collection
+  for (var x = 0; x < collection.length; x++) {
+    // If a predicate is falsey, return false
+    if (!collection[x][pre]) {
+      return false;
+    }
+  }
+  // All predicates are truthy, return true
+  return true;
+};
+
+
+/**
+ *  21. Create a function that sums two arguments together 
+ *      If one argument is provided, return a function that
+ *      expects one argument and returns the sum
+ */
+function addTogether() {
+  // Access all of the arguments
+  const args = Array.from(arguments);
+  // Check if the first argument is a number
+  if (typeof args[0] === 'number') {
+    // Check if second argument exists
+    if (args[1]) {
+      // If it does, add the two if they are numbers, return undefined otherwise
+      return typeof args[1] === 'number' ? args[0] + args[1] : undefined;
+    }
+    // Return a function if only one value provided
+    return function (x) {
+      return typeof x === 'number' ? x + args[0] : undefined;
+    };
+  }
+  return undefined;
+}
