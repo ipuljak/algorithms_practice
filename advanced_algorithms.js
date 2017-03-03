@@ -296,18 +296,149 @@ const makeFriendlyDates = arr => {
 
   // Convert the date to a more computable format
   arr = arr.map(x => {
-    return x.split('-');
+    return x.split('-').map(y => {
+      return parseInt(y);
+    });
   });
 
-  arr = arr.map(x => {
-    let month = months[parseInt(x[1])-1];
-    let dayEnding = ending(parseInt(x[2][1]));
-    let day = x[2][0] === '0' ? x[2][1] + dayEnding : x[2] + dayEnding;
-    newDate = month + ' ' + day + ', ' + x[0];
-    return newDate;
-  });
+  // Calculate if there is a difference in years
+  let YEAR_DIFFERENCE = false;
+  // Later year
+  if (arr[1][0] - arr[0][0] > 1) {
+    YEAR_DIFFERENCE = true;
+  }
+  // Same year
+  if (arr[1][0] - arr[0][0] === 1) {
+    // Later month
+    if (arr[1][1] - arr[0][1] > 0) {
+      YEAR_DIFFERENCE = true;
+    } else {
+      // Same month
+      if (arr[1][1] - arr[0][1] === 0) {
+        // Same or later day
+        if (arr[1][2] >= arr[0][2]) {
+          YEAR_DIFFERENCE = true;
+        }
+      }
+    }
+  }
 
-  return arr;
+  // Calculate if it's in the same year
+  let CURRENT_YEAR = false;
+  if (arr[0][0] === 2016) {
+    CURRENT_YEAR = true;
+  }
+
+  // Build the first date
+  let dates = [];
+  let month = months[arr[0][1] - 1];
+  let day = arr[0][2].toString() + ending(arr[0][2]);
+  let yStr = ', ' + arr[0][0].toString();
+  let year = YEAR_DIFFERENCE || (!CURRENT_YEAR && !YEAR_DIFFERENCE) ? yStr : '';
+  dates.push(month + ' ' + day + year);
+
+  // Build the second date
+  let mStr = months[arr[1][1] - 1];
+  month = !YEAR_DIFFERENCE && month === mStr && arr[0][0] === arr[1][0] ? '' : mStr + ' ';
+  day = arr[1][2].toString() + ending(arr[1][2]);
+  yStr = ', ' + arr[1][0].toString();
+  year = YEAR_DIFFERENCE ? yStr : '';
+
+  // Check that the dates are not equal
+  if (arr[0].join('') !== arr[1].join('')) {
+    dates.push(month + day + year);
+  }
+
+  return dates;
 };
 
-console.log(makeFriendlyDates(["2016-07-01", "2016-07-04"]));
+
+/**
+ *  8. Fill in an object constructor with methods to make a person
+ */
+let Person = function (firstAndLast) {
+  // Private Person properties
+  let fullName = firstAndLast;
+  let firstName = firstAndLast.split(' ')[0];
+  let lastName = firstAndLast.split(' ')[1];
+
+  // Person getter functions
+  this.getFirstName = () => firstName;
+  this.getLastName = () => lastName;
+  this.getFullName = () => fullName;
+
+  // Person setter functions
+  this.setFirstName = first => {
+    firstName = first;
+    fullName = first + ' ' + lastName;
+  };
+
+  this.setLastName = last => {
+    lastName = last;
+    fullName = firstName + ' ' + last;
+  };
+
+  this.setFullName = firstAndLast => {
+    fullName = firstAndLast;
+    firstName = firstAndLast.split(' ')[0];
+    lastName = firstAndLast.split(' ')[1];
+  };
+};
+
+
+/**
+ *  9. Return a new array that transofrms the element's average
+ *     altitude into their orbital periods
+ */
+const orbitalPeriod = arr => {
+  // GM and radius constant values for earth
+  const GM = 398600.4418;
+  const earthRadius = 6367.4447;
+
+  // Function to calculate the orbitalPeriod for a given altitude
+  const orbitalHelper = alt => {
+    let expression = Math.pow(earthRadius + alt, 3) / GM;
+    expression = 2 * Math.PI * Math.sqrt(expression);
+    return Math.round(expression);
+  };
+
+  // Go through each item in the array and calculate their orbital periods
+  return arr.map(x => {
+    // Construct a new object for the data
+    let obj = {
+      name: x.name,
+      orbitalPeriod: orbitalHelper(x.avgAlt)
+    };
+    return obj;
+  });
+};
+
+
+/**
+ *  10. Given an array arr, find element pairs whose sum equal the 
+ *      second argument arg and return the sum of their indices
+ *      - If multiple pairs are possible that have the same numeric elements
+ *        but different indices, return the smallest sum of indices
+ *      - Once an element has been used, it cannot be reused to pair with another
+ */
+const pairwise = (arr, arg) => {
+  // Keep a running sum
+  let sum = 0;
+  // Go through items in the array. This loop is greedy from smallest to 
+  // largest, so we will always find the best pairs first
+  for (var x = 0; x < arr.length; x++) {
+    // Look for pairs in further items in the array
+    for (var y = x + 1; y < arr.length; y++) {
+      // If a pair has been found
+      if (arr[x] + arr[y] === arg) {
+        // Add the sum of the indices to the running counter
+        sum += x + y;
+        // Set the values in the array to NaN so that the loop skips them over
+        arr[x] = NaN;
+        arr[y] = NaN;
+      }
+    }
+  }
+  // Finally return the calculated sum of the indices
+  return sum;
+};
