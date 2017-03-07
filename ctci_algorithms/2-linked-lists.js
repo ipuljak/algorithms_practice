@@ -5,100 +5,91 @@
  */
 
 
-/**
- *  Create a singly linked list class to use for the problems
- */
-function Node(data) {
+/** Object constructor to define a Node */
+let Node = function (data) {
   this.data = data;
   this.next = null;
-}
+};
 
-function SinglyList() {
+/** Object constructor to define a SinglyList composed of Node objects */
+let SinglyList = function () {
   this._length = 0;
   this.head = null;
-}
 
-SinglyList.prototype.add = function (value) {
-  var node = new Node(value),
-    currentNode = this.head;
+  /** Add a new node to the linked list */
+  this.add = val => {
+    // Create the node
+    let node = new Node(val);
+    let currentNode = this.head;
 
-  // 1st use-case: an empty list
-  if (!currentNode) {
-    this.head = node;
+    // Set this new node to be the head if no head exists
+    if (!currentNode) {
+      this.head = node;
+      this._length++;
+      return node;
+    }
+
+    // Traverse the linked list to get to the tail
+    while (currentNode.next) {
+      currentNode = currentNode.next;
+    }
+
+    // Set the next node in place and increment the linked list length
+    currentNode.next = node;
     this._length++;
-
     return node;
-  }
+  };
 
-  // 2nd use-case: a non-empty list
-  while (currentNode.next) {
-    currentNode = currentNode.next;
-  }
+  /** Retrieve the node from the linked list at position pos */
+  this.get = pos => {
+    // Return undefined if position pos does not exist
+    if (pos < 1 || pos > this._length) {
+      return undefined;
+    }
 
-  currentNode.next = node;
+    // Prepare to traverse the linked list
+    let count = 1;
+    let currentNode = this.head;
 
-  this._length++;
+    // Traverse the linked list until we reach our desire position
+    while (count !== pos) {
+      currentNode = currentNode.next
+      count++;
+    }
 
-  return node;
-};
+    // Return the node at this location
+    return currentNode;
+  };
 
-SinglyList.prototype.searchNodeAt = function (position) {
-  var currentNode = this.head,
-    length = this._length,
-    count = 1,
-    message = { failure: 'Failure: non-existent node in this list.' };
+  /** Remove the node from the linked list as position pos */
+  this.remove = pos => {
+    // Return undefined if position pos does not exist
+    if (pos < 1 || pos > this._length) {
+      return undefined;
+    }
 
-  // 1st use-case: an invalid position
-  if (length === 0 || position < 1 || position > length) {
-    throw new Error(message.failure);
-  }
+    // To remove the head, set head to the next node of head
+    if (pos === 1) {
+      this.head = this.head.next;
+    }
 
-  // 2nd use-case: a valid position
-  while (count < position) {
-    currentNode = currentNode.next;
-    count++;
-  }
+    // Prepare to traverse the linked list
+    let count = 1;
+    let currentNode = this.head;
+    let previousNode = null;
 
-  return currentNode;
-};
+    // Traverse the linked list until we reach our desire position
+    while (count !== pos) {
+      previousNode = currentNode;
+      currentNode = currentNode.next;
+      count++;
+    }
 
-SinglyList.prototype.remove = function (position) {
-  var currentNode = this.head,
-    length = this._length,
-    count = 0,
-    message = { failure: 'Failure: non-existent node in this list.' },
-    beforeNodeToDelete = null,
-    nodeToDelete = null,
-    deletedNode = null;
-
-  // 1st use-case: an invalid position
-  if (position < 0 || position > length) {
-    throw new Error(message.failure);
-  }
-
-  // 2nd use-case: the first node is removed
-  if (position === 1) {
-    this.head = currentNode.next;
-    deletedNode = currentNode;
-    currentNode = null;
+    // Set the next node of the previous node to be the next of the deleted node
+    previousNode.next = currentNode.next;
     this._length--;
-
-    return deletedNode;
-  }
-
-  // 3rd use-case: any other node is removed
-  while (count < position) {
-    beforeNodeToDelete = currentNode;
-    nodeToDelete = currentNode.next;
-    count++;
-  }
-
-  beforeNodeToDelete.next = nodeToDelete.next;
-  deletedNode = nodeToDelete;
-  nodeToDelete = null;
-  this._length--;
-
-  return deletedNode;
+    return previousNode;
+  };
 };
 
 
