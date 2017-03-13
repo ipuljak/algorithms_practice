@@ -58,7 +58,50 @@ const selectionSort = arr => {
 };
 
 
-let arr1 = [5, 3, 1, 9, 7];
-let arr2 = ['a', 'r', 'd', 's', 'x', 'e'];
+/* Merge Sort */
+const merge = (left, right) => {
+  let result = [];
 
-console.log(selectionSort(arr1));
+  while (left.length !== 0 && right.length !== 0) {
+    if (left[0] <= right[0]) {
+      result.push(left[0]);
+      left = left.slice(1);
+    } else {
+      result.push(right[0]);
+      right = right.slice(1);
+    }
+  }
+
+  for (let x = 0; x < left.length; x++) {
+    result.push(left[x]);
+  }
+
+  for (let y = 0; y < right.length; y++) {
+    result.push(right[y]);
+  }
+
+  return result;
+};
+
+const mergeSort = arr => {
+  // Base case - list must be sorted at this point
+  if (arr.length < 2) {
+    return arr;
+  }
+
+  let left = [];
+  let right = [];
+
+  for (let x = 0; x < arr.length; x++) {
+    if (x < (arr.length / 2)) {
+      left.push(arr[x]);
+    } else {
+      right.push(arr[x]);
+    }
+  }
+
+  left = mergeSort(left);
+  right = mergeSort(right);
+
+  return merge(left, right);
+};
