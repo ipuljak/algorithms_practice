@@ -115,16 +115,26 @@ let MyQueue = function () {
  *  into any other data structure (such as an array). The stack supports the
  *  following operations: push, pop, peek, and is Empty.
  */
-const sortStack = stack => {
-  // Simulate a stack using an array for simplicity
-  let length = stack.length;
-  let tempStack = [];
-  let current = largest = 0;
+// const sortStack = stack => {
+//   // Simulate a stack using an array for simplicity
+//   let length = stack.length;
+//   let tempStack = [];
+//   let current = largest = tempCurrent = 0;
 
-  while (tempStack.length !== length) {
-    current = stack.pop();
-    if (current > largest) {
-      // Work on this later
-    }
-  }
-};
+//   while (tempStack.length !== length) {
+//     current = stack.pop();
+//     if (current > largest) {
+//       // Work on this later
+//       tempStack.push(current);
+//       largest = current;
+//     } else {
+//       tempCurrent = tempStack.pop();
+//       while (current >= tempCurrent && tempStack.length !== 0) {
+//         stack.push(tempCurrent);
+//         tempCurrent = tempStack.pop();
+//       }
+//       tempStack.push(current);
+//     }
+//   }
+//   console.log(tempStack);
+// };
