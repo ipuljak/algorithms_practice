@@ -70,11 +70,40 @@ const addTwoNumbers = (l1, l2) => {
  * @return {number}
  */
 const lengthLongest = s => {
-  let curStr = '';
-  let longest = curLength = 0;
-
   
 };
 
 
-console.log(lengthLongest('dvdf'));
+/**
+ *  4. Median of Two Sorted Arrays
+ *  Find the median of the two sorted arrays. The overall run time complexity 
+ *  should be O(log (m+n)).
+ * 
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+const median = arr => {
+  if (arr.length === 0) {
+    return 0;
+  }
+
+  if (arr.length % 2 === 0) {
+    return (arr[(arr.length / 2)-1] + arr[arr.length / 2]) / 2;
+  } else {
+    return arr[Math.floor(arr.length / 2)];
+  }
+};
+
+const findMedian = (nums1, nums2) => {
+  if (nums1.length > 0 && nums2.length > 0) {
+    return (median(nums1) + median(nums2)) / 2;
+  }
+  if (nums1.length > 0) {
+    return median(nums1);
+  } 
+  if (nums2.length > 0) {
+    return median(nums2);
+  }
+  return 0;
+};
