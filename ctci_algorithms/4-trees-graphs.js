@@ -86,7 +86,66 @@ let ten = new Node(10, five, twenty);
  */
 
 
+/**
+ *  Graphs
+ *  ======
+ */
+let Graph = function (nodes) {
+  this.nodes = nodes;
+};
+
+let GNode = function (name, children) {
+  this.name = name;
+  this.children = children;
+};
+
+/** Depth-First Search */
+const DFS = (node, visited) => {
+  if (!node) return;
+  visited.push(node);
+  for (let x = 0; x < node.children.length; x++) {
+    if (!visited.includes(node.children[x])) {
+      DFS(node.children[x], visited);
+    }
+  }
+  return visited;
+};
+
+/** Breadth-First Search */
+const BFS = node => {
+  if (!node) return;
+  let queue = [node];
+  let visited = [];
+  let current;
+
+  while (queue.length !== 0) {
+    current = queue.shift();
+    visited.push(current);
+    for (let x = 0; x < current.children.length; x++) {
+      if (!visited.includes(current.children[x]) && !queue.includes(current.children[x])) {
+        queue.push(current.children[x]);
+      }
+    }
+  }
+  return visited;
+};
+
+let i = new GNode('i', []);
+let j = new GNode('j', []);
+let h = new GNode('h', [i]);
+let c = new GNode('c', [h, j]);
+let b = new GNode('b', []);
+let k = new GNode('k', [b, i, j]);
+let e = new GNode('e', [k]);
+let g = new GNode('g', [k, h]);
+
+let Graph1 = new Graph([i, j, h, c, b, k, e, g]);
 
 
+/**
+ *  4.1 Route Between Nodes
+ *  Given a directed graph, design an algorithm to find out whether there is a 
+ *  route between two nodes.
+ */
 
 
