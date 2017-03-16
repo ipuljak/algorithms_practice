@@ -178,7 +178,7 @@ const createMinimalTree = (arr, start, end) => {
   let mid = Math.floor((start + end) / 2);
   let node = new Node(arr[mid], null, null);
   node.left = createMinimalTree(arr, start, mid - 1);
-  node.right = createMinimalTree(arr, mid+1, end);
+  node.right = createMinimalTree(arr, mid + 1, end);
   return node;
 };
 
@@ -197,8 +197,8 @@ const atDepth = (node, depths, d) => {
   if (!node) return null;
   // Create the linked list for the depth if it doesn't exist, otherwise add the node in
   depths[d] ? depths[d].push(node) : depths[d] = [node];
-  atDepth(node.left, depths, d+1);
-  atDepth(node.right, depths, d+1);
+  atDepth(node.left, depths, d + 1);
+  atDepth(node.right, depths, d + 1);
 };
 
 const listOfDepths = tree => {
@@ -214,6 +214,20 @@ const listOfDepths = tree => {
  *  of this question, a balanced tree is defined to be a tree such that the 
  *  heights of the two subtrees of any node never differ by more than one.
  */
-const checkBalanced = tree => {
+// Calculate the height at each node
+const calculateHeights = node => {
+  if (!node) return 0;
+  return 1 + calculateHeights(node.left) + calculateHeights(node.right);
+};
 
+// Check if the tree is balanced at each node
+const checkBalanced = node => {
+  if (!node) return true;
+  // If any node has a height that differs by more than 1, it isn't balanced
+  if ((Math.abs(calculateHeights(node.left) - calculateHeights(node.right)) > 1)) {
+    return false;
+  } else {
+    // Check that each subtree is balanced
+    return checkBalanced(node.left) && checkBalanced(node.right);
+  }
 };
