@@ -147,5 +147,73 @@ let Graph1 = new Graph([i, j, h, c, b, k, e, g]);
  *  Given a directed graph, design an algorithm to find out whether there is a 
  *  route between two nodes.
  */
+const routeBetween = (a, b) => {
+  let queue = [a];
+  let visited = [];
+  let current;
+
+  while (queue.length !== 0) {
+    current = queue.shift();
+    visited.push(current);
+    if (current === b) return true;
+    for (let x = 0; x < current.children.length; x++) {
+      if (!visited.includes(current.children[x]) && !queue.includes(current.children[x])) {
+        queue.push(current.children[x]);
+      }
+    }
+  }
+  return false;
+};
 
 
+/**
+ *  4.2 Minimal Tree
+ *  Given a sorted (increasing order) array with unique integer elements, write 
+ *  an algo­rithm to create a binary search tree with minimal height.
+ */
+const createMinimalTree = (arr, start, end) => {
+  if (end < start) {
+    return null;
+  }
+  let mid = Math.floor((start + end) / 2);
+  let node = new Node(arr[mid], null, null);
+  node.left = createMinimalTree(arr, start, mid - 1);
+  node.right = createMinimalTree(arr, mid+1, end);
+  return node;
+};
+
+const minimalTree = arr => {
+  return createMinimalTree(arr, 0, arr.length - 1);
+};
+
+
+/**
+ *  4.3 List of Depths
+ *  Given a binary tree, design an algorithm which creates a linked list of all 
+ *  the nodes at each depth (e.g., if you have a tree with depth D, you'll have 
+ *  D linked lists).
+ */
+const atDepth = (node, depths, d) => {
+  if (!node) return null;
+  // Create the linked list for the depth if it doesn't exist, otherwise add the node in
+  depths[d] ? depths[d].push(node) : depths[d] = [node];
+  atDepth(node.left, depths, d+1);
+  atDepth(node.right, depths, d+1);
+};
+
+const listOfDepths = tree => {
+  let depths = [];
+  atDepth(tree, depths, 0);
+  return depths;
+};
+
+
+/**
+ *  4.4 Check Balanced
+ *  Implement a function to check if a binary tree is balanced. For the purposes 
+ *  of this question, a balanced tree is defined to be a tree such that the 
+ *  heights of the two subtrees of any node never differ by more than one.
+ */
+const checkBalanced = tree => {
+  
+};
