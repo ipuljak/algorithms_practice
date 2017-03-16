@@ -151,7 +151,7 @@ const routeBetween = (a, b) => {
   let queue = [a];
   let visited = [];
   let current;
-
+  // Perform BFS and return true if we visit the b node
   while (queue.length !== 0) {
     current = queue.shift();
     visited.push(current);
@@ -215,5 +215,5 @@ const listOfDepths = tree => {
  *  heights of the two subtrees of any node never differ by more than one.
  */
 const checkBalanced = tree => {
-  
+
 };
