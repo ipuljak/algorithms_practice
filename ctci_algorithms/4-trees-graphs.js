@@ -63,13 +63,13 @@ const postOrderTraversal = node => {
 };
 
 /** Perfect binary tree for later use */
-let nine = new Node(9, null, null);
-let eighteen = new Node(18, null, null);
+let eleven = new Node(11, null, null);
+let twentytwo = new Node(22, null, null);
 let three = new Node(3, null, null);
 let seven = new Node(7, null, null);
 
-let five = new Node(5, nine, eighteen);
-let twenty = new Node(20, three, seven);
+let twenty = new Node(20, eleven, twentytwo);
+let five = new Node(5, three, seven);
 
 let ten = new Node(10, five, twenty);
 
@@ -238,10 +238,10 @@ const checkBalanced = node => {
  *  Implement a function to check if a binary tree is a binary search tree.
  */
 const checkBST = node => {
-  if (!node) return true;
-  if (!node.left && !node.right) return true;
+  if (!node || ((!node.left && !node.right))) return true;
   if (node.left && node.right) {
     return node.data > node.left.data && node.data < node.right.data && checkBST(node.left) && checkBST(node.right);
   }
-  if (node.left) return node.data > 
+  if (node.left) return node.data > node.left.data && checkBST(node.left);
+  if (node.right) return node.data < node.right.data && checkBST(node.right);
 };
