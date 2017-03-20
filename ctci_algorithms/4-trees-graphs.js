@@ -245,3 +245,21 @@ const checkBST = node => {
   if (node.left) return node.data > node.left.data && checkBST(node.left);
   if (node.right) return node.data < node.right.data && checkBST(node.right);
 };
+
+
+/**
+ *  4.6 Successor
+ *  Write an algorithm to find the "next" node (i.e., in-order successor) of a 
+ *  given node in a binary search tree. You may assume that each node has a link
+ *  to it's parent.
+ */
+const successor = node => {
+  if (!node.right) return undefined;
+  let curNode = node.right;
+  while (curNode.left) {
+    curNode = curNode.left;
+  }
+  return curNode;
+};
+
+// problem - when node does not have a right subtree
