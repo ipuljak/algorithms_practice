@@ -231,3 +231,17 @@ const checkBalanced = node => {
     return checkBalanced(node.left) && checkBalanced(node.right);
   }
 };
+
+
+/**
+ *  4.5 Validate BST
+ *  Implement a function to check if a binary tree is a binary search tree.
+ */
+const checkBST = node => {
+  if (!node) return true;
+  if (!node.left && !node.right) return true;
+  if (node.left && node.right) {
+    return node.data > node.left.data && node.data < node.right.data && checkBST(node.left) && checkBST(node.right);
+  }
+  if (node.left) return node.data > 
+};
