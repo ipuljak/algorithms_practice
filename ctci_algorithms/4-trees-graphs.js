@@ -130,16 +130,16 @@ const BFS = node => {
   return visited;
 };
 
-let i = new GNode('i', []);
-let j = new GNode('j', []);
-let h = new GNode('h', [i]);
-let c = new GNode('c', [h, j]);
-let b = new GNode('b', []);
-let k = new GNode('k', [b, i, j]);
-let e = new GNode('e', [k]);
-let g = new GNode('g', [k, h]);
+// let i = new GNode('i', []);
+// let j = new GNode('j', []);
+// let h = new GNode('h', [i]);
+// let c = new GNode('c', [h, j]);
+// let b = new GNode('b', []);
+// let k = new GNode('k', [b, i, j]);
+// let e = new GNode('e', [k]);
+// let g = new GNode('g', [k, h]);
 
-let Graph1 = new Graph([i, j, h, c, b, k, e, g]);
+// let Graph1 = new Graph([i, j, h, c, b, k, e, g]);
 
 
 /**
@@ -253,13 +253,59 @@ const checkBST = node => {
  *  given node in a binary search tree. You may assume that each node has a link
  *  to it's parent.
  */
-const successor = node => {
-  if (!node.right) return undefined;
-  let curNode = node.right;
-  while (curNode.left) {
-    curNode = curNode.left;
+const leftMost = node => {
+  if (!node) return null;
+  while (node.left) {
+    node = node.left;
   }
-  return curNode;
+  return node;
 };
 
-// problem - when node does not have a right subtree
+const successor = node => {
+  if (!node) return null;
+  // No right subtree, we must climb up until on left tree instead of right
+  if (!node.right) {
+    curNode = node;
+    parentNode = curNode.parent;
+    while (parentNode && parentNode.left !== curNode) {
+      curNode = parentNode;
+      parentNode = parentNode.parent;
+    }
+    return parentNode;
+  } else {
+    return leftMost(node.right);
+  }
+};
+
+
+/**
+ *  4.7 Build Order
+ *  You are given a list of projects and a list of dependencies (which is a list
+ *  of pairs of projects, where the second project is dependent on the first 
+ *  project). All of a project's dependencies must be built before the project 
+ *  is. Find a build order that will allow the projects to be built. If there is 
+ *  no valid build order, return an error.
+ */
+// This is an example of topological sorted
+
+
+/**
+ *  4.8 First Common Ancestor
+ *  Design an algorithm and write code to find the first common ancestor of two
+ *  nodes in a binary tree. Avoid storing additional nodes in a data structure.
+ *  NOTE: This is not necessarily a binary search tree.
+ */
+const fca = (n1, n2) => {
+  // Go to a parent of n1 and check it's children for n2, otherwise go higher 
+}
+
+
+/**
+ *  4.9 BST Sequences
+ *  A binary search tree was created by traversing through an array from left to
+ *  right and inserting each element. Given a binary search tree with distinct
+ *  elements, print all possible arrays that could have led to this tree.
+ */
+const bstSequences = node => {
+  
+};
