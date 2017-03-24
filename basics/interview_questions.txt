@@ -121,3 +121,51 @@ Token based auth is stateless. The server does not keep a record. Every request 
 
 In most languages, ‘this’ is a reference to the current object instantiated by the class. In JavaScript, ‘this’ normally refers to the object which ‘owns’ the method, but it depends on how a function is called. 
 
+If there is no current object, this refers to the window. so window.scrollTo = this.scrollTo.
+
+
+2. What is "call"?
+
+function SetType(type) {
+   this.WhoAmI = "I'm the " + type + " object!"
+}
+
+let newobj = {}
+SetType.call(newobj, "callllllllll")
+  is the same as
+let newobj = new SetType("callllllll")
+
+
+3. What is "apply"?
+
+The only difference is that ‘call’ expects a discrete number of parameters while ‘apply’ can be passed an array of parameters.
+
+let newobj = {}
+SetType.apply(newobj, ["callllllllll"])
+
+
+4. How do prototypes work?
+
+function Person(first, last, age, eyecolor) {
+    this.firstName = first;
+    this.lastName = last;
+    this.age = age;
+    this.eyeColor = eyecolor;
+}
+
+The constructor function is the prototype for Person objects.
+Person is a prototype.
+
+You can add new properties to an object like
+myFather.nationality = "English";
+
+but cannot do
+
+Person.nationality = "English". 
+
+You have to add it in the constructor function.
+
+
+5. 
+
+https://github.com/indy256/Full-stack-Developer-Interview-Questions-and-Answers#cryptography
