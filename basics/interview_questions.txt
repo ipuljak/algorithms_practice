@@ -121,51 +121,271 @@ Token based auth is stateless. The server does not keep a record. Every request 
 
 In most languages, ‘this’ is a reference to the current object instantiated by the class. In JavaScript, ‘this’ normally refers to the object which ‘owns’ the method, but it depends on how a function is called. 
 
-If there is no current object, this refers to the window. so window.scrollTo = this.scrollTo.
 
 
-2. What is "call"?
 
-function SetType(type) {
-   this.WhoAmI = "I'm the " + type + " object!"
+========
+= HTML =
+========
+
+- block elements go on their own line. <p> is an example
+- inline elements stay in the same line. the following two are examples:
+- <b> is bold, but you should use <strong>
+- <i> is italics, but you should use <em>
+- divs are block elements
+- spans are inline
+
+<table>
+  <thead> -> this is a tag for semantics, just to make things look sensible
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody> -> this is a tag for semantics, just to make things look sensible
+    <tr>
+      <td>Rusty</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Wiley</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<form action="http://wikipedia.com" method="GET">
+sends a GET request to wikipedia. usually we want to send it to our own server
+
+sends request as wikipedia.com?username=hello&my_password=fdskjl for name tags
+
+radio button - select from a list, need to give name attribute to be able to select only one item. radios need value tag otherwise itll just say "pet_choice=on" in the URL
+
+checkbox - select multiple
+
+
+
+=======
+= CSS =
+=======
+
+
+- background-size: cover stretches it out across the entire background
+
+selectors:
+-----------
+
+Element: li {
+
+Class: .someClass {
+
+Id: #someID {
+
+Select everything: * {
+
+Descendent tag - anchor tags inside of an li:   li a {
+
+Adjacent tag - ul next to an h4:    h4 + ul {
+
+Attribute tag - every anchor tag with an attribute:   a[href="google.com"] {
+
+nth of type - every third ul:  ul:nth-of-type(3) {   
+it also selects every third of a group
+
+
+Inheritance
+-----------
+
+ul {
+  color: purple
 }
 
-let newobj = {}
-SetType.call(newobj, "callllllllll")
-  is the same as
-let newobj = new SetType("callllllll")
+makes the li's inside of them purple as well
 
 
-3. What is "apply"?
+Fonts
+-----
 
-The only difference is that ‘call’ expects a discrete number of parameters while ‘apply’ can be passed an array of parameters.
+if you have 
 
-let newobj = {}
-SetType.apply(newobj, ["callllllllll"])
-
-
-4. How do prototypes work?
-
-function Person(first, last, age, eyecolor) {
-    this.firstName = first;
-    this.lastName = last;
-    this.age = age;
-    this.eyeColor = eyecolor;
+h1 {
+  font-size: 15px;
 }
 
-The constructor function is the prototype for Person objects.
-Person is a prototype.
+and a span inside it, if you does
 
-You can add new properties to an object like
-myFather.nationality = "English";
+span {
+  font-size: 2em;
+}
 
-but cannot do
-
-Person.nationality = "English". 
-
-You have to add it in the constructor function.
+font-size will be twice as much as it's parent, so 30px;
 
 
-5. 
+Float
+-----
 
-https://github.com/indy256/Full-stack-Developer-Interview-Questions-and-Answers#cryptography
+No space between things use:
+float: left; (gets rid of white space that browser adds)
+
+
+Position
+--------
+
+- position:static -> is the default position and refers to where it normally would be in the document
+
+- position:relative -> if you specify relative, then you can move the item top, bottom, left, right relative to where it would normally be
+
+- position:absolute -> will remove the item from where it should be and you can place it exactly where you want it with top, right, left, bottom etc. but it will start from (0, 0)
+
+- position:relative + position:absolute -> If we set relative positioning on div-1, any elements within div-1 will be positioned relative to div-1. Then if we set absolute positioning on div-1a, we can move it to the top right of div-1:
+
+- two column absolute:
+#div-1 {
+ position:relative;
+}
+#div-1a {
+ position:absolute;
+ top:0;
+ right:0;
+ width:200px;
+}
+#div-1b {
+ position:absolute;
+ top:0;
+ left:0;
+ width:200px;
+}
+
+- that might look bad if the columns are of different heights. have to use floats.
+
+- float:left will make the second column wrap around the first
+
+- if we float:left both, they will push up against each other side by side
+
+- we can use clear:both to keep them side by side, and the next section will start on a new line properly
+
+-
+
+
+
+====================
+= DOM Manipulation =
+====================
+
+var h1 = document.querySelector('h1');
+h1.style.color = 'red';
+
+Get all li's:
+querySelectorAll('li');
+
+- getElementById()
+
+h1.style.border = "10px solid red";
+h1.style.fontSize = "70px";
+h1.style.marginTop = "200px";
+
+// Add a class to an h1
+h1.classList.add('my-class');
+
+// Remove a class
+h1.classList.remove('my-class');
+
+// Toggle a class
+h1.classList.toggle('my-class');
+
+// Alter the text
+h1.textContent = "blah blah blah";
+
+// Inner HTML
+h1.innerHTML = "blah <strong>blah</strong> blah";
+
+// Getting attribute
+myA.getAttribute("href");
+
+// Manipulating attributes
+img.setAttribute("src", "corgi.png");
+
+
+DOM Events
+----------
+
+var button = document.querySelector("button");
+
+button.addEventListener("click", () => {
+  console.log("Someone clicked the button");
+});
+
+for (var i = 0; i < lis.length; i++) {
+  lis[i].addEventListener("click", () => {
+    this.style.color = "purple";    // can use this to refer to lis[i] 
+  });
+}
+
+
+
+=========
+= MONGO =
+=========
+
+show dbs
+show collections
+
+use demo
+
+// Insert data into a collection
+db.dogs.insert({ name: "Rusty", breed: "Mutt" })
+
+// Find all
+db.dogs.find({})
+
+// Find a particular instance
+db.dogs.find({ name: "Rusty" })
+
+// Update a value
+db.dogs.update({name: "Lulu"}, {breed: "Labrador"})
+// Problem with this is it completely overwrites the left object with the right object
+
+// If you only want to update the breed while preserving the original name:
+db.dogs.update({name: "Lulu"}, {$set: {breed: "Labrador"}})
+
+// To remove a group of items
+db.dogs.remove({breed: "Labrador"})
+
+// Remove a number of items
+db.dogs.remove({breed: "Labrador"}).limit(2)
+
+
+
+
+const express = require('express')
+  , bodyparser = require('body-parser')
+  , MongoClient = require('mongodb').MongoClient
+  , app = express()
+
+app.use(bodyparser.json({ type: '*/*' }));
+
+let db
+
+MongoClient.connect('mongodb://localhost:27017/interview', (err, database) => {
+  if (err) return console.log('There was an error starting the database.', err)
+  db = database
+  app.listen(3001, process.env.IP, () => {
+    console.log("The API server is listening on port 3001.")
+  })
+})
+
+app.get('/get_todos', (req, res) => {
+  db.collection('todos').find().toArray((err, result) => {
+    if (err) return console.log('Error with /get_todos', err)
+    console.log('result', result)
+    res.send(result)
+  })
+})
+
+app.post('/add_todo', (req, res) => {
+  db.collection('todos').save(req.body, (err, result) => {
+    if (err) return console.log('Error with /add_todo', err)
+    res.send({ success: 'you have added it to the database' })
+  })
+})
