@@ -1,0 +1,60 @@
+====================
+   React Patterns
+====================
+
+Communication
+=============
+
+// Title.jsx
+class Title extends React.Component {
+  render() {
+    return <h1>{ this.props.text }</h1>;
+  }
+};
+
+Title.propTypes = {
+  text: React.PropTypes.string
+};
+Title.defaultProps = {
+  text: 'Hello world'
+};
+
+// App.jsx
+class App extends React.Component {
+  render() {
+    return <Title text='Hello React' />;
+  }
+};
+
+// To render "children" -> this.props.children
+
+class Title extends React.Component {
+  render() {
+    return (
+      <h1>
+        { this.props.text }
+        { this.props.children }
+      </h1>
+    );
+  }
+};
+
+class App extends React.Component {
+  render() {
+    return (
+      <Title text='Hello React'>
+        <span>community</span>
+      </Title>
+    );
+  }
+};
+
+
+Event Handlers
+==============
+
+<button onClick={ this._handleButtonClick.bind(this) }>
+
+is bad practice because .bind(this) gets rerendered multiple times. A better solution is to do it in the constructor:
+
+this._buttonClick = this._handleButtonClick.bind(this);
