@@ -58,3 +58,27 @@ Event Handlers
 is bad practice because .bind(this) gets rerendered multiple times. A better solution is to do it in the constructor:
 
 this._buttonClick = this._handleButtonClick.bind(this);
+
+
+Children in JSX
+===============
+
+Can pass props.children into components
+
+function Title(props) {
+  return (
+    <h1 className='lots-of-styles-here'>
+      <strong>
+        <i className='something-else'>
+          { props.children }
+        </i>
+      </strong>
+    </h1>
+  );
+}
+
+<Title>Hello world</Title>
+
+Can also pass in other components instead of "Hello world"
+
+
