@@ -47,7 +47,7 @@ function repeatStringNumTimes(str, num) {
     return num > 0 ? str.repeat(num) : '';
 }
 
-// Truncate a StringPassed
+// Truncate a String
 function truncateString(str, num) {
     return str.length > num ? str.slice(0, num) + '...' : str;
 }
