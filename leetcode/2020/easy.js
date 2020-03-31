@@ -113,3 +113,63 @@ var plusOne = function (digits) {
 
     return [1].concat(digits);
 };
+
+
+/** 
+ * 67. Add Binary
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
+var addBinary = function (a, b) {
+    let max = a.length > b.length ? a : b;
+    let min = a.length <= b.length ? a : b;
+
+    while (max.length !== min.length) {
+        min = '0' + min;
+    }
+
+    let str = '';
+    let sum, carry;
+
+    for (let x = max.length - 1; x >= 0; x--) {
+        sum = parseInt(max[x]) + parseInt(min[x]) + (carry ? 1 : 0);
+        str = (sum % 2 ? "1" : "0") + str;
+        carry = sum > 1;
+    }
+
+    if (carry) {
+        str = '1' + str;
+    }
+
+    return str;
+};
+
+
+/** 
+ * 69. Sqrt(x)
+ * @param {number} x
+ * @return {number}
+ */
+var mySqrt = function (x) {
+    return Math.floor(x ** 0.5);
+};
+
+
+/** 
+ * 70. Climbing Stairs
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function (n) {
+    let prev = 0;
+    let curr = 1;
+
+    for (let x = 1; x <= n; x++) {
+        let sum = prev + curr;
+        prev = curr;
+        curr = sum;
+    }
+
+    return curr;
+};
