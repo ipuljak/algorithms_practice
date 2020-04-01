@@ -228,3 +228,128 @@ var merge = function (nums1, m, nums2, n) {
         i--;
     }
 };
+
+
+/** 
+ * 100. Same Tree
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {boolean}
+ */
+var isSameTree = function (p, q) {
+    if (!p && !q) return true;
+    if (!p || !q) return false;
+    if (p.val !== q.val) return false;
+
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+};
+
+
+/** 
+ * 101. Symmetric Tree
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isSymmetric = function (root) {
+    if (!root) return true;
+
+    const compare = (l, r) => {
+        if (!l && !r) return true;
+        if (!l || !r) return false;
+        if (l.val !== r.val) return false;
+        return compare(l.left, r.right) && compare(l.right, r.left);
+    };
+
+    return compare(root.left, root.right);
+};
+
+
+/** 
+ * 104. Maximum Depth of Binary Tree
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function (root) {
+    if (!root) return 0;
+    if (!root.left && !root.right) return 1;
+    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+};
+
+
+/** 
+ * 107. Binary Tree Level Order Traversal II
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrderBottom = function (root) {
+    const result = [];
+
+    const BFS = (node, depth) => {
+        if (!node) return;
+
+        result.length <= depth ?
+            result.push([node.val]) :
+            result[depth].push(node.val);
+
+        BFS(node.left, depth + 1);
+        BFS(node.right, depth + 1);
+    };
+
+    BFS(root, 0);
+    return result.reverse();
+};
+
+
+/** 
+ * 108. Convert Sorted Array to Binary Search Tree
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
+var sortedArrayToBST = function (nums) {
+    if (!nums.length) return null;
+
+    if (nums.length === 1) return new TreeNode(nums[0]);
+
+    const index = Math.floor(nums.length / 2);
+    const node = new TreeNode(nums[index]);
+
+    node.left = sortedArrayToBST(nums.slice(0, index));
+    node.right = sortedArrayToBST(nums.slice(index + 1));
+
+    return node;
+};
