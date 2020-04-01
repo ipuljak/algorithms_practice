@@ -187,11 +187,11 @@ var climbStairs = function (n) {
  * @param {ListNode} head
  * @return {ListNode}
  */
-var deleteDuplicates = function(head) {
+var deleteDuplicates = function (head) {
     if (!head) return head;
-    
+
     let curr = head;
-    
+
     while (curr.next) {
         if (curr.val === curr.next.val) {
             curr.next = curr.next.next;
@@ -199,7 +199,7 @@ var deleteDuplicates = function(head) {
             curr = curr.next;
         }
     }
-    
+
     return head;
 };
 
@@ -211,11 +211,11 @@ var deleteDuplicates = function(head) {
  * @param {number} n
  * @return {void} Do not return anything, modify nums1 in-place instead.
  */
-var merge = function(nums1, m, nums2, n) {
+var merge = function (nums1, m, nums2, n) {
     let mi = m - 1;
     let ni = n - 1;
     let i = m + n - 1;
-    
+
     while (ni >= 0) {
         if (nums1[mi] > nums2[ni]) {
             nums1[i] = nums1[mi];
@@ -224,7 +224,7 @@ var merge = function(nums1, m, nums2, n) {
             nums1[i] = nums2[ni];
             ni--;
         }
-        
+
         i--;
     }
 };
