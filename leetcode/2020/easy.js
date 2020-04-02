@@ -353,3 +353,240 @@ var sortedArrayToBST = function (nums) {
 
     return node;
 };
+
+
+/** 
+ * 110. Balanced Binary Tree
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isBalanced = function (root) {
+    if (!root) return true;
+
+    const getMaxDepth = (node, depth = 0) => {
+        if (!node) return depth;
+        return Math.max(getMaxDepth(node.left, depth + 1), getMaxDepth(node.right, depth + 1));
+    };
+
+    const difference = Math.abs(getMaxDepth(root.left) - getMaxDepth(root.right));
+    return isBalanced(root.left) && isBalanced(root.right) && difference <= 1;
+};
+
+
+/** 
+ * 111. Minimum Depth of Binary Tree
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function (root) {
+    const DFS = (node, depth = 0) => {
+        if (!node) return depth;
+        if (!node.left && !node.right) return depth + 1;
+
+        let left = DFS(node.left, depth + 1);
+        let right = DFS(node.right, depth + 1);
+
+        if (!node.left) return right;
+        if (!node.right) return left
+
+        return Math.min(left, right);
+    };
+
+    return DFS(root);
+};
+
+
+/** 
+ * 112. Path Sum
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {boolean}
+ */
+var hasPathSum = function (root, sum) {
+    if (!root) return false;
+    if (!root.left && !root.right) return sum - root.val === 0;
+    return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+};
+
+
+/** 
+ * 118. Pascal's Triangle
+ * @param {number} numRows
+ * @return {number[][]}
+ */
+var generate = function (numRows) {
+    if (numRows === 0) return [];
+    if (numRows === 1) return [[1]];
+    if (numRows === 2) return [[1], [1, 1]];
+
+    let triangle = [[1], [1, 1]];
+    let current = [];
+    let previous = [1, 1];
+
+    for (let x = 3; x <= numRows; x++) {
+        current = [1];
+
+        for (let y = 0; y < previous.length - 1; y++) {
+            current.push(previous[y] + previous[y + 1]);
+        }
+
+        current.push(1);
+        triangle.push(current);
+        previous = current;
+    }
+
+    return triangle;
+};
+
+
+/** 
+ * 119. Pascal's Triangle II
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
+var getRow = function (rowIndex) {
+    if (rowIndex === 0) return [1];
+    let previous = [1];
+    let row;
+
+    for (let x = 1; x <= rowIndex; x++) {
+        row = [1];
+
+        for (let y = 0; y < previous.length - 1; y++) {
+            row[y + 1] = previous[y] + previous[y + 1];
+        }
+
+        row.push(1);
+        previous = row;
+    }
+
+    return row;
+};
+
+
+/** 
+ * 121. Best Time to Buy and Sell Stock
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+    let best = 0;
+    let low = Infinity;
+    let high = 0;
+
+    for (let x = 0; x < prices.length - 1; x++) {
+        if (prices[x] < low) {
+            low = prices[x];
+            high = 0;
+        }
+
+        if (prices[x + 1] > high) {
+            high = prices[x + 1];
+        }
+
+        if ((high - low) > best) {
+            best = high - low;
+        }
+    }
+
+    return best;
+};
+
+
+/** 
+ * 122. Best Time to Buy and Sell Stock II
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+    let total = 0;
+    let bought = 0;
+    let holding = false;
+
+    for (let x = 0; x < prices.length; x++) {
+        if (prices[x + 1] > prices[x] && !holding) {
+            holding = true;
+            bought = prices[x];
+            continue;
+        }
+
+        if (!holding) continue;
+
+        if (prices[x] > prices[x + 1] || x === prices.length - 1) {
+            total += prices[x];
+            total -= bought;
+            holding = false;
+            bought = 0;
+        }
+    }
+
+    return total;
+};
+
+
+/** 
+ * 125. Valid Palindrome
+ * @param {string} s
+ * @return {boolean}
+ */
+var isPalindrome = function (s) {
+    s = s.toLowerCase().replace(/\W/gi, '');
+
+    for (let x = 0; x < (s.length) / 2; x++) {
+        if (s[x] !== s[s.length - x - 1]) return false;
+    }
+
+    return true;
+};
+
+
+/** 
+ * 136. Single Number - Map
+ * @param {number[]} nums
+ * @return {number}
+ */
+var singleNumber = function (nums) {
+    let map = {};
+
+    for (let x = 0; x < nums.length; x++) {
+        if (map[nums[x]]) {
+            delete map[nums[x]];
+            continue;
+        }
+
+        map[nums[x]] = true;
+    }
+
+    return Object.keys(map)[0];
+};
+
+
+/** 
+ * 136. Single Number - XOR
+ * @param {number[]} nums
+ * @return {number}
+ */
+var singleNumber = function (nums) {
+    return nums.reduce((a, b) => a ^ b);
+};
