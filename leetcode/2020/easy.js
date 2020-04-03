@@ -590,3 +590,120 @@ var singleNumber = function (nums) {
 var singleNumber = function (nums) {
     return nums.reduce((a, b) => a ^ b);
 };
+
+
+/** 
+ * 141. Linked List Cycle
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+var hasCycle = function (head) {
+    if (!head) return false;
+
+    let ptr1 = head;
+    let ptr2 = head.next;
+
+    while (ptr1 && ptr2 && ptr2.next) {
+        if (ptr1 === ptr2) return true;
+        ptr1 = ptr1.next;
+        ptr2 = ptr2.next.next;
+    }
+
+    return false;
+};
+
+
+/** 
+ * 155. Min Stack
+ * initialize your data structure here.
+ */
+var MinStack = function () {
+    this.stack = [];
+    this.min;
+};
+
+/** 
+ * @param {number} x
+ * @return {void}
+ */
+MinStack.prototype.push = function (x) {
+    if (this.min === undefined || x < this.min) {
+        this.min = x;
+    }
+
+    this.stack.push(x);
+};
+
+/**
+ * @return {void}
+ */
+MinStack.prototype.pop = function () {
+    let popped = this.stack.pop();
+
+    if (popped === this.min) {
+        this.min = Math.min(...this.stack);
+    }
+};
+
+/**
+ * @return {number}
+ */
+MinStack.prototype.top = function () {
+    return this.stack[this.stack.length - 1];
+};
+
+/**
+ * @return {number}
+ */
+MinStack.prototype.getMin = function () {
+    return this.min;
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * var obj = new MinStack()
+ * obj.push(x)
+ * obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.getMin()
+ */
+
+
+/** 
+ * 160. Intersection of Two Linked Lists
+* Definition for singly-linked list.
+* function ListNode(val) {
+*     this.val = val;
+*     this.next = null;
+* }
+*/
+
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+var getIntersectionNode = function (headA, headB) {
+    let currA = headA;
+    let currB = headB;
+
+    if (!currA || !currB) return null;
+
+    while (true) {
+        if (currA === currB) return currA;
+        if (currA.next) currA = currA.next;
+        if (currB.next) currB = currB.next;
+        if (!currA.next && !currB.next && currA !== currB) return null;
+        if (!currA.next && !currB.next && currA === currB) return currA;
+        if (!currA.next) currA = headB;
+        if (!currB.next) currB = headA;
+    }
+};
