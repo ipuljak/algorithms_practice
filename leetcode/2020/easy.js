@@ -707,3 +707,68 @@ var getIntersectionNode = function (headA, headB) {
         if (!currB.next) currB = headA;
     }
 };
+
+
+/** 
+ * 167. Two Sum II - Input array is sorted - map
+ * @param {number[]} numbers
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function (numbers, target) {
+    let map = {};
+
+    for (let x = 0; x < numbers.length; x++) {
+        if (map[numbers[x]] !== undefined) {
+            return [map[numbers[x]] + 1, x + 1];
+        }
+
+        map[target - numbers[x]] = x;
+    }
+};
+
+
+/** 
+ * 167. Two Sum II - Input array is sorted - O(1)
+ * @param {number[]} numbers
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function (numbers, target) {
+    let a = 0;
+    let b = numbers.length - 1
+
+    while (a < b) {
+        if ((target - numbers[a]) === numbers[b]) return [a + 1, b + 1];
+        target - numbers[a] < numbers[b] ? b-- : a++;
+    }
+};
+
+
+/** 
+ * 168. Excel Sheet Column Title
+ * @param {number} n
+ * @return {string}
+ */
+var convertToTitle = function (n) {
+    let title = "";
+
+    if (n <= 26) {
+        return String.fromCharCode(64 + (n % 26 ? n % 26 : 26));
+    }
+
+    while (n > 0) {
+        let r = n % 26;
+
+        n = Math.floor(n / 26);
+
+        if (r === 0) {
+            r = 0;
+            n = n - 1;
+        }
+
+        title = String.fromCharCode(64 + (r ? r : 26)) + title;
+    }
+
+    return title;
+};
