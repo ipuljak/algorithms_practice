@@ -955,3 +955,130 @@ var countPrimes = function (n) {
 
     return count;
 };
+
+
+/** 
+ * 205. Isomorphic Strings
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isIsomorphic = function (s, t) {
+    let map = {};
+    let mapped = {};
+
+    for (let x = 0; x < s.length; x++) {
+        if (!map[s[x]]) {
+            if (mapped[t[x]]) return false;
+            map[s[x]] = t[x];
+            mapped[t[x]] = true;
+            continue;
+        }
+
+        if (map[s[x]] !== t[x]) return false;
+    }
+
+    return true;
+};
+
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/** 
+ * 206. Reverse Linked List - O(n) space
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function (head) {
+    if (!head) return null;
+
+    let stack = [];
+
+    while (head) {
+        stack.push(head);
+        head = head.next;
+    }
+
+    head = stack.pop();
+    curr = head;
+
+    while (stack.length) {
+        curr.next = stack.pop();
+        curr = curr.next;
+    }
+
+    curr.next = null;
+
+    return head;
+};
+
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/** 
+ * 206. Reverse Linked List - O(1) space
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function (head) {
+    let prev = null;
+
+    while (head) {
+        let temp = head.next;
+        head.next = prev;
+        prev = head;
+        head = temp;
+    }
+
+    return prev;
+};
+
+
+/** 
+ * 217. Contains Duplicate
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var containsDuplicate = function (nums) {
+    let map = {};
+
+    for (let x = 0; x < nums.length; x++) {
+        if (map[nums[x]]) return true;
+        map[nums[x]] = true;
+    }
+
+    return false;
+};
+
+
+/** 
+ * 219. Contains Duplicate II
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var containsNearbyDuplicate = function (nums, k) {
+    let map = {};
+
+    for (let x = 0; x < nums.length; x++) {
+        if (map[nums[x]] !== undefined) {
+            if (x - map[nums[x]] <= k) return true;
+        }
+
+        map[nums[x]] = x;
+    }
+
+    return false;
+};
+
+
