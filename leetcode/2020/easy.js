@@ -1082,3 +1082,123 @@ var containsNearbyDuplicate = function (nums, k) {
 };
 
 
+/** 
+ * 225. Implement Stack using Queues
+ * Initialize your data structure here.
+ */
+var MyStack = function () {
+    this.queue = [];
+};
+
+/**
+ * Push element x onto stack. 
+ * @param {number} x
+ * @return {void}
+ */
+MyStack.prototype.push = function (x) {
+    this.queue.push(x);
+};
+
+/**
+ * Removes the element on top of the stack and returns that element.
+ * @return {number}
+ */
+MyStack.prototype.pop = function () {
+    let temp = [];
+
+    while (this.queue.length > 1) {
+        temp.push(this.queue.shift());
+    }
+
+    let ans = this.queue.shift();
+    this.queue = temp;
+    return ans;
+
+};
+
+/**
+ * Get the top element.
+ * @return {number}
+ */
+MyStack.prototype.top = function () {
+    let temp = [];
+
+    while (this.queue.length > 1) {
+        temp.push(this.queue.shift());
+    }
+
+    let ans = this.queue.shift();
+    this.queue = temp;
+    this.queue.push(ans);
+    return ans;
+};
+
+/**
+ * Returns whether the stack is empty.
+ * @return {boolean}
+ */
+MyStack.prototype.empty = function () {
+    return !this.queue.length
+};
+
+/** 
+ * Your MyStack object will be instantiated and called as such:
+ * var obj = new MyStack()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.empty()
+ */
+
+
+/** 
+ * 226. Invert Binary Tree
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var invertTree = function (root) {
+    if (!root) return null;
+
+    let temp = root.left;
+    root.left = root.right;
+    root.right = temp;
+
+    invertTree(root.left);
+    invertTree(root.right);
+
+    return root;
+};
+
+
+/** 
+ * 231. Power of Two - 1
+ * @param {number} n
+ * @return {boolean}
+ */
+var isPowerOfTwo = function (n) {
+    let x = 1;
+
+    while (n >= x) {
+        if (n === x) return true;
+        x *= 2;
+    }
+
+    return false;
+};
+
+
+/** 
+ * 231. Power of Two - 2
+ * @param {number} n
+ * @return {boolean}
+ */
+var isPowerOfTwo = function (n) {
+    return Math.log2(n) % 1 === 0;
+};
