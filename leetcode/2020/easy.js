@@ -772,3 +772,186 @@ var convertToTitle = function (n) {
 
     return title;
 };
+
+
+/** 
+ * 189. Rotate Array
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var rotate = function (nums, k) {
+    if (nums.length < 2) return nums;
+    if (nums.length === k) return nums;
+
+    k %= nums.length;
+
+    while (k > 0) {
+        nums.unshift(nums.pop());
+        k--;
+    }
+};
+
+
+/** 
+ * 190. Reverse Bits
+ * @param {number} n - a positive integer
+ * @return {number} - a positive integer
+ */
+var reverseBits = function (n) {
+    let result = 0;
+
+    for (let x = 0; x < 32; x++) {
+        result = result << 1;
+        result = result | (n & 1);
+        n = n >> 1;
+    }
+
+    return result >>> 0;
+};
+
+
+/** 
+ * 191. Number of 1 Bits
+ * @param {number} n - a positive integer
+ * @return {number}
+ */
+var hammingWeight = function (n) {
+    let count = 0;
+
+    for (let x = 0; x < 32; x++) {
+        count += (n & (1 << x)) === 0 ? 0 : 1;
+    }
+
+    return count;
+};
+
+
+// 193. Valid Phone Numbers
+// cat file.txt | grep -E "^([0-9]{3}-|\([0-9]{3}\)\ )[0-9]{3}-[0-9]{4}$"
+
+
+// 195. Tenth Line
+// sed -n '10p' file.txt
+
+
+/** 196. Delete Duplicate Emails
+DELETE p2
+FROM person AS p1
+INNER JOIN person AS p2
+ON p1.email = p2.email
+AND p1.id < p2.id;
+ */
+
+
+/** 197. Rising Temperature
+SELECT w2.Id FROM Weather w1, Weather w2
+WHERE DATEDIFF(w2.RecordDate, w1.RecordDate) = 1
+AND w2.Temperature >  w1.Temperature;
+ */
+
+
+/** 
+ * 198. House Robber
+* @param {number[]} nums
+* @return {number}
+*/
+var rob = function (nums) {
+    if (!nums.length) return 0;
+    if (nums.length === 1) return nums[0];
+    if (nums.length === 2) return Math.max(nums[0], nums[1]);
+
+    // Max profit per index
+    let dp = [nums[0], Math.max(nums[0], nums[1])];
+
+    for (let x = 2; x < nums.length; x++) {
+        dp[x] = Math.max(dp[x - 1], nums[x] + dp[x - 2]);
+    }
+
+    return dp[nums.length - 1];
+};
+
+
+/** 
+ * 202. Happy Number
+ * @param {number} n
+ * @return {boolean}
+ */
+var isHappy = function (n) {
+    const visited = [];
+
+    while (true) {
+        let total = 0;
+
+        while (n !== 0) {
+            total += (n % 10) ** 2;
+            n = Math.floor(n / 10);
+        }
+
+        if (total === 1) return true;
+        if (total === 0 || visited.includes(total)) return false;
+
+        visited.push(total);
+        n = total;
+        total = 0;
+    }
+};
+
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/** 
+ * 203. Remove Linked List Elements
+ * @param {ListNode} head
+ * @param {number} val
+ * @return {ListNode}
+ */
+var removeElements = function (head, val) {
+    while (head && head.val === val) {
+        head = head.next;
+    }
+
+    let prev = head;
+
+    while (prev) {
+        while (prev.next && prev.next.val === val) {
+            prev.next = prev.next.next;
+        }
+
+        prev = prev.next;
+    }
+
+    return head;
+};
+
+
+/** 
+ * 204. Count Primes
+ * @param {number} n
+ * @return {number}
+ */
+var countPrimes = function (n) {
+    if (n <= 2) return 0;
+
+    let count = 0;
+    let notPrimes = {};
+
+    for (let x = 2; x < n; x++) {
+        // Number is not a prime, skip
+        if (notPrimes[x]) continue;
+
+        count++;
+
+        // Mark multiples of this prime as non prime
+        for (let y = x + x; y < n; y += x) {
+            notPrimes[y] = true;
+        }
+    }
+
+    return count;
+};
