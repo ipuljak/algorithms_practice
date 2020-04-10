@@ -774,6 +774,114 @@ var convertToTitle = function (n) {
 };
 
 
+/**
+ * 169. Majority Element
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function (nums) {
+    const target = nums.length / 2;
+    const map = {};
+
+    for (let x = 0; x < nums.length; x++) {
+        if (map[nums[x]]) {
+            map[nums[x]]++;
+        } else {
+            map[nums[x]] = 1;
+        }
+
+        if (map[nums[x]] > target) {
+            return nums[x];
+        }
+    }
+};
+
+
+/**
+ * 171. Excel Sheet Column Number
+ * @param {string} s
+ * @return {number}
+ */
+var titleToNumber = function (s) {
+    let count = 0;
+
+    for (let x = 0; x < s.length; x++) {
+        count += ((s[x].charCodeAt() - 64) * (26 ** (s.length - x - 1)));
+    }
+
+    return count;
+};
+
+
+/**
+ * 172. Factorial Trailing Zeroes
+ * @param {number} n
+ * @return {number}
+ */
+var trailingZeroes = function (n) {
+    let zeros = 0;
+
+    for (let i = 5; i <= n; i *= 5) {
+        zeros += Math.floor(n / i);
+    }
+
+    return zeros;
+};
+
+
+/**
+ * 175. Combine Two Tables
+ *
+SELECT FirstName, LastName, City, State
+FROM Person
+LEFT JOIN Address
+ON Person.PersonId = Address.PersonId;
+ */
+
+
+/**
+ * 176. Second Highest Salary
+ *
+SELECT Salary AS SecondHighestSalary
+FROM Employee
+UNION SELECT null
+UNION SELECT null
+ORDER BY SecondHighestSalary DESC
+LIMIT 1 OFFSET 1;
+ */
+
+
+/**
+ * 181. Employees Earning More Than Their Managers
+ *
+SELECT Workers.Name AS Employee
+FROM Employee Workers
+INNER JOIN Employee Managers
+ON Workers.ManagerId = Managers.Id
+AND Workers.Salary > Managers.Salary;
+ */
+
+
+/**
+ * 182. Duplicate Emails
+ *
+SELECT Email
+FROM Person
+GROUP BY Email
+HAVING COUNT(*) > 1
+ */
+
+
+/**
+ * 183. Customers Who Never Order
+ *
+SELECT Name AS Customers
+FROM Customers
+WHERE Id NOT IN
+(SELECT CustomerId FROM Orders);
+ */
+
+
 /** 
  * 189. Rotate Array
  * @param {number[]} nums
