@@ -1316,7 +1316,7 @@ var isPowerOfTwo = function (n) {
  * 232. Implement Queue using Stacks
  * Initialize your data structure here.
  */
-var MyQueue = function() {
+var MyQueue = function () {
     this.stack = [];
     this.front = null;
 };
@@ -1326,9 +1326,9 @@ var MyQueue = function() {
  * @param {number} x
  * @return {void}
  */
-MyQueue.prototype.push = function(x) {
+MyQueue.prototype.push = function (x) {
     this.stack.push(x);
-    
+
     if (!this.front) {
         this.front = x;
     }
@@ -1338,23 +1338,23 @@ MyQueue.prototype.push = function(x) {
  * Removes the element from in front of queue and returns that element.
  * @return {number}
  */
-MyQueue.prototype.pop = function() {
+MyQueue.prototype.pop = function () {
     let temp = [];
-    
+
     while (this.stack.length) {
         temp.push(this.stack.pop());
     }
-    
+
     let ans = temp.pop();
 
     // Reset front value
     this.front = temp.length ? temp[temp.length - 1] : null;
-    
+
     // Reset the stack
     while (temp.length) {
         this.stack.push(temp.pop());
     }
-    
+
     return ans;
 };
 
@@ -1362,7 +1362,7 @@ MyQueue.prototype.pop = function() {
  * Get the front element.
  * @return {number}
  */
-MyQueue.prototype.peek = function() {
+MyQueue.prototype.peek = function () {
     return this.front;
 };
 
@@ -1370,7 +1370,7 @@ MyQueue.prototype.peek = function() {
  * Returns whether the queue is empty.
  * @return {boolean}
  */
-MyQueue.prototype.empty = function() {
+MyQueue.prototype.empty = function () {
     return !this.stack.length
 };
 
@@ -1384,3 +1384,163 @@ MyQueue.prototype.empty = function() {
  */
 
 
+/** 
+* 234. Palindrome Linked List - O(n) space
+* Definition for singly-linked list.
+* function ListNode(val) {
+*     this.val = val;
+*     this.next = null;
+* }
+*/
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+var isPalindrome = function (head) {
+    let stack = [];
+
+    let curr = head;
+
+    while (curr) {
+        stack.push(curr.val);
+        curr = curr.next;
+    }
+
+    while (head) {
+        if (head.val !== stack.pop()) return false;
+        head = head.next;
+    }
+
+    return true;
+};
+
+
+/** 
+ * 235. Lowest Common Ancestor of a Binary Search Tree
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+    if (root === p || root === q) return root;
+
+    let max = p.val > q.val ? p : q;
+    let min = p.val > q.val ? q : p;
+
+    if (root.val > min.val && root.val < max.val) return root;
+
+    return root.val < max.val ?
+        lowestCommonAncestor(root.right, p, q) :
+        lowestCommonAncestor(root.left, p, q);
+
+};
+
+
+/** 
+ * 237. Delete Node in a Linked List - O(n)
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} node
+ * @return {void} Do not return anything, modify node in-place instead.
+ */
+var deleteNode = function (node) {
+    while (node && node.next) {
+        node.val = node.next.val;
+
+        if (!node.next.next) {
+            node.next = null;
+        }
+
+        node = node.next;
+    }
+};
+
+
+/** 
+ * 237. Delete Node in a Linked List - O(1)
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} node
+ * @return {void} Do not return anything, modify node in-place instead.
+ */
+var deleteNode = function (node) {
+    node.val = node.next.val;
+    node.next = node.next.next;
+};
+
+
+/** 
+ * 242. Valid Anagram
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isAnagram = function (s, t) {
+    if (s.length !== t.length) return false;
+
+    let map = {};
+
+    for (let x = 0; x < s.length; x++) {
+        if (map[s[x]]) {
+            map[s[x]]++;
+        } else {
+            map[s[x]] = 1;
+        }
+    }
+
+    for (let x = 0; x < t.length; x++) {
+        if (!map[t[x]]) return false;
+        map[t[x]]--;
+    }
+
+    for (let letter in map) {
+        if (map[letter]) return false;
+    }
+
+    return true;
+};
+
+
+/** 
+ * 257. Binary Tree Paths
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {string[]}
+ */
+var binaryTreePaths = function (root) {
+    var explorePath = function (node, path) {
+        if (!node) return [];
+
+        path = `${path ? path + "->" : ''}${node.val.toString()}`;
+
+        if (!node.left && !node.right) return [path];
+
+        return [...explorePath(node.left, path), ...explorePath(node.right, path)];
+    }
+
+    return explorePath(root, '');
+};
