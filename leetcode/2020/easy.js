@@ -1879,3 +1879,27 @@ NumArray.prototype.sumRange = function (i, j) {
 var isPowerOfThree = function (n) {
     return (Math.log(n) / Math.log(3)).toFixed(14) % 1 === 0;
 };
+
+
+/** 
+ * 342. Power of Four
+ * @param {number} num
+ * @return {boolean}
+ */
+var isPowerOfFour = function (num) {
+    return (Math.log(num) / Math.log(4)).toFixed(14) % 1 === 0;
+};
+
+
+/** 
+ * 344. Reverse String
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+var reverseString = function (s) {
+    for (let left = 0, right = s.length - 1; left < right; left++, right--) {
+        let temp = s[left];
+        s[left] = s[right];
+        s[right] = temp;
+    }
+};
