@@ -204,7 +204,8 @@ var deleteDuplicates = function (head) {
 };
 
 
-/** 88. Merge Sorted Array
+/** 
+ * 88. Merge Sorted Array
  * @param {number[]} nums1
  * @param {number} m
  * @param {number[]} nums2
@@ -943,7 +944,9 @@ var hammingWeight = function (n) {
 // sed -n '10p' file.txt
 
 
-/** 196. Delete Duplicate Emails
+/** 
+ * 196. Delete Duplicate Emails
+ * 
 DELETE p2
 FROM person AS p1
 INNER JOIN person AS p2
@@ -952,7 +955,9 @@ AND p1.id < p2.id;
  */
 
 
-/** 197. Rising Temperature
+/** 
+ * 197. Rising Temperature
+ * 
 SELECT w2.Id FROM Weather w1, Weather w2
 WHERE DATEDIFF(w2.RecordDate, w1.RecordDate) = 1
 AND w2.Temperature >  w1.Temperature;
@@ -1543,4 +1548,219 @@ var binaryTreePaths = function (root) {
     }
 
     return explorePath(root, '');
+};
+
+
+/** 
+ * 258. Add Digits - O(n)
+ * @param {number} num
+ * @return {number}
+ */
+var addDigits = function (num) {
+    while (num.toString().length > 1) {
+        num = num
+            .toString()
+            .split('')
+            .reduce((a, b) => a + parseInt(b), 0);
+    }
+
+    return num;
+};
+
+
+/** 
+ * 258. Add Digits - O(1)
+ * @param {number} num
+ * @return {number}
+ */
+var addDigits = function (num) {
+    if (!num) return 0;
+    return num % 9 ? num % 9 : 9;
+};
+
+
+/** 
+ * 263. Ugly Number - Bad solution
+ * @param {number} num
+ * @return {boolean}
+ */
+var isUgly = function (num) {
+    if (num < 1) return false;
+    if (num === 1) return true;
+
+    if ((num % 2 !== 0) && (num % 3 !== 0) && (num % 5 !== 0)) {
+        return false;
+    }
+
+    let notPrimes = {};
+
+    for (let x = 2; x <= (num / 2); x++) {
+        if (notPrimes[x]) continue;
+        if (num % x === 0 && x !== 2 && x !== 3 && x !== 5) return false;
+
+        // Mark multiples of this prime as non prime
+        for (let y = x + x; y < num; y += x) {
+            notPrimes[y] = true;
+        }
+    }
+
+    return true;
+};
+
+
+/** 
+ * 263. Ugly Number - Good solution
+ * @param {number} num
+ * @return {boolean}
+ */
+var isUgly = function (num) {
+    if (num < 1) return false;
+    if (num < 5) return true;
+
+    while (num % 2 === 0) {
+        num = num / 2;
+    }
+
+    while (num % 3 === 0) {
+        num = num / 3;
+    }
+
+    while (num % 5 === 0) {
+        num = num / 5;
+    }
+
+    return num === 1;
+};
+
+
+/** 
+ * 268. Missing Number
+ * @param {number[]} nums
+ * @return {number}
+ */
+var missingNumber = function (nums) {
+    let missing = nums.length;
+
+    for (let x = 0; x < nums.length; x++) {
+        missing += x - nums[x];
+    }
+
+    return missing;
+};
+
+
+/** 
+ * 278. First Bad Version
+ * Definition for isBadVersion()
+ * 
+ * @param {integer} version number
+ * @return {boolean} whether the version is bad
+ * isBadVersion = function(version) {
+ *     ...
+ * };
+ */
+
+/**
+ * @param {function} isBadVersion()
+ * @return {function}
+ */
+var solution = function (isBadVersion) {
+    /**
+     * @param {integer} n Total versions
+     * @return {integer} The first bad version
+     */
+    return function (n) {
+        let left = 1;
+        let right = n;
+
+        while (left < right) {
+            let middle = Math.floor(left + ((right - left) / 2));
+
+            if (isBadVersion(middle)) {
+                right = middle;
+            } else {
+                left = middle + 1;
+            }
+        }
+
+        return left;
+    };
+};
+
+
+/** 
+ * 283. Move Zeroes - Brute force
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function (nums) {
+    let curr = 0;
+
+    while (curr !== nums.length) {
+        if (nums[curr] === 0) {
+            // Swap operation
+            for (let x = curr + 1; x < nums.length; x++) {
+                if (nums[x] !== 0) {
+                    nums[curr] = nums[x];
+                    nums[x] = 0;
+                    break;
+                }
+            }
+        }
+
+        curr++;
+    }
+};
+
+
+/** 
+ * 283. Move Zeroes - Faster
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function (nums) {
+    const swap = (arr, i, j) => {
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    };
+
+    let nonZeroes = 0;
+
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== 0) {
+            swap(nums, i, nonZeroes);
+            nonZeroes++;
+        }
+    }
+};
+
+
+/** 
+ * 290. Word Pattern
+ * @param {string} pattern
+ * @param {string} str
+ * @return {boolean}
+ */
+var wordPattern = function (pattern, str) {
+    let letterMap = {};
+    let wordMap = {};
+    let result = '';
+
+    str = str.split(' ');
+
+    if (pattern.length !== str.length) return false;
+
+    for (let x = 0; x < pattern.length; x++) {
+        if (!letterMap[pattern[x]]) {
+            if (wordMap[str[x]]) return false;
+            letterMap[pattern[x]] = str[x];
+        }
+
+        if (!wordMap[str[x]]) {
+            wordMap[str[x]] = pattern[x];
+        }
+
+        if (letterMap[pattern[x]] !== str[x]) return false;
+    }
+
+    return true;
 };
