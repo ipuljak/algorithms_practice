@@ -1764,3 +1764,118 @@ var wordPattern = function (pattern, str) {
 
     return true;
 };
+
+
+/** 
+ * 292. Nim Game
+ * @param {number} n
+ * @return {boolean}
+ */
+var canWinNim = function (n) {
+    return !!(n % 4);
+};
+
+
+/** 
+ * 299. Bulls and Cows
+ * @param {string} secret
+ * @param {string} guess
+ * @return {string}
+ */
+var getHint = function (secret, guess) {
+    let bulls = 0, cows = 0;
+    let map = {};
+
+    secret = secret.toString();
+    guess = guess.toString();
+
+    for (let x = 0; x < secret.length; x++) {
+        if (secret[x] === guess[x]) {
+            bulls++;
+            continue;
+        }
+
+        if (map[secret[x]]) {
+            map[secret[x]]++;
+        } else {
+            map[secret[x]] = 1;
+        }
+    }
+
+    for (let x = 0; x < secret.length; x++) {
+        if (secret[x] === guess[x]) continue;
+        if (!map[guess[x]]) continue;
+        map[guess[x]]--;
+        cows++;
+    }
+
+    return `${bulls}A${cows}B`;
+};
+
+
+/** 
+ * 303. Range Sum Query - Immutable - Slow
+ * @param {number[]} nums
+ */
+var NumArray = function (nums) {
+    this.arr = nums;
+};
+
+/** 
+ * @param {number} i 
+ * @param {number} j
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function (i, j) {
+    let sum = 0;
+
+    for (let x = i; x <= j; x++) {
+        sum += this.arr[x];
+    }
+
+    return sum;
+};
+
+/** 
+ * Your NumArray object will be instantiated and called as such:
+ * var obj = new NumArray(nums)
+ * var param_1 = obj.sumRange(i,j)
+ */
+
+
+/** 
+ * 303. Range Sum Query - Immutable - Fast
+* @param {number[]} nums
+*/
+var NumArray = function (nums) {
+    this.cache = [0];
+
+    for (let x = 0; x < nums.length; x++) {
+        this.cache[x + 1] = this.cache[x] + nums[x];
+    }
+};
+
+/** 
+ * @param {number} i 
+ * @param {number} j
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function (i, j) {
+    return this.cache[j + 1] - this.cache[i];
+};
+
+/** 
+ * Your NumArray object will be instantiated and called as such:
+ * var obj = new NumArray(nums)
+ * var param_1 = obj.sumRange(i,j)
+ */
+
+
+/** 
+ * 326. Power of Three
+ * @param {number} n
+ * @return {boolean}
+ */
+var isPowerOfThree = function (n) {
+    return (Math.log(n) / Math.log(3)).toFixed(14) % 1 === 0;
+};
