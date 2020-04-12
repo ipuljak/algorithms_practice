@@ -1903,3 +1903,199 @@ var reverseString = function (s) {
         s[right] = temp;
     }
 };
+
+
+/** 
+ * 345. Reverse Vowels of a String - Slow
+ * @param {string} s
+ * @return {string}
+ */
+var reverseVowels = function (s) {
+    const map = {
+        'a': true,
+        'e': true,
+        'i': true,
+        'o': true,
+        'u': true
+    };
+
+    s = s.split('');
+
+    const vowels = s.filter(x => map[x.toLowerCase()]);
+
+    return s.map(x => map[x.toLowerCase()] ? vowels.pop() : x).join('');
+};
+
+
+/** 
+ * 345. Reverse Vowels of a String - Fast
+ * @param {string} s
+ * @return {string}
+ */
+var reverseVowels = function (s) {
+    const map = {
+        'a': true,
+        'e': true,
+        'i': true,
+        'o': true,
+        'u': true
+    };
+
+    s = s.split('');
+    let temp;
+    let ptr1 = 0;
+    let ptr2 = s.length - 1;
+
+    while (ptr1 < ptr2) {
+        if (map[s[ptr1].toLowerCase()] && map[s[ptr2].toLowerCase()]) {
+            temp = s[ptr1];
+            s[ptr1] = s[ptr2];
+            s[ptr2] = temp;
+            ptr1++;
+            ptr2--;
+            continue;
+        }
+
+        if (!map[s[ptr1].toLowerCase()]) {
+            ptr1++;
+        }
+
+        if (!map[s[ptr2].toLowerCase()]) {
+            ptr2--;
+        }
+    }
+
+    return s.join('');
+};
+
+
+/** 
+ * 349. Intersection of Two Arrays
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var intersection = function (nums1, nums2) {
+    let map = {};
+    let result = [];
+
+    for (let x = 0; x < nums1.length; x++) {
+        map[nums1[x]] = true;
+    }
+
+    for (let x = 0; x < nums2.length; x++) {
+        if (map[nums2[x]]) {
+            result.push(nums2[x]);
+            delete map[nums2[x]];
+        }
+    }
+
+    return result;
+};
+
+
+/** 
+ * 350. Intersection of Two Arrays II
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var intersect = function (nums1, nums2) {
+    let map = {};
+    let result = [];
+    let max = nums1.length > nums2.length ? nums1 : nums2;
+    let min = nums1.length <= nums2.length ? nums1 : nums2;
+
+    for (let x = 0; x < max.length; x++) {
+        if (map[max[x]]) {
+            map[max[x]]++;
+        } else {
+            map[max[x]] = 1;
+        }
+    }
+
+    for (let x = 0; x < min.length; x++) {
+        if (map[min[x]]) {
+            result.push(min[x]);
+            map[min[x]]--;
+        }
+    }
+
+    return result;
+};
+
+
+/** 
+ * 367. Valid Perfect Square
+ * @param {number} num
+ * @return {boolean}
+ */
+var isPerfectSquare = function (num) {
+    let index = 1;
+    let square = 0;
+
+    while (square < num) {
+        square = index ** 2;
+        index++;
+    }
+
+    return square === num;
+};
+
+
+/** 
+ * 371. Sum of Two Integers
+ * @param {number} a
+ * @param {number} b
+ * @return {number}
+ */
+var getSum = function (a, b) {
+    let carry;
+
+    while (b) {
+        carry = a & b;
+        a = a ^ b;
+        b = carry << 1;
+    }
+
+    return a;
+};
+
+
+/** 
+ * 374. Guess Number Higher or Lower
+ * Forward declaration of guess API.
+ * @param {number} num   your guess
+ * @return 	            -1 if num is lower than the guess number
+ *			             1 if num is higher than the guess number
+ *                       otherwise return 0
+ * var guess = function(num) {}
+ */
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var guessNumber = function (n) {
+    let x = 1;
+    let y = n;
+
+    while (x < y) {
+        let middle = Math.floor((x + y) / 2)
+
+        switch (guess(middle)) {
+            case -1:
+                y = middle - 1;
+                break;
+
+            case 1:
+                x = middle + 1;
+                break;
+
+            default:
+                return middle;
+        }
+    }
+
+    return x;
+};
