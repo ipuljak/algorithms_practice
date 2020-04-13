@@ -2099,3 +2099,274 @@ var guessNumber = function (n) {
 
     return x;
 };
+
+
+/** 
+ * 383. Ransom Note
+ * @param {string} ransomNote
+ * @param {string} magazine
+ * @return {boolean}
+ */
+var canConstruct = function (ransomNote, magazine) {
+    let map = {};
+
+    for (let x = 0; x < magazine.length; x++) {
+        if (map[magazine[x]]) {
+            map[magazine[x]]++;
+        } else {
+            map[magazine[x]] = 1;
+        }
+    }
+
+    for (let x = 0; x < ransomNote.length; x++) {
+        if (!map[ransomNote[x]]) return false;
+        map[ransomNote[x]]--;
+    }
+
+    return true;
+};
+
+
+/** 
+ * 387. First Unique Character in a String
+ * @param {string} s
+ * @return {number}
+ */
+var firstUniqChar = function (s) {
+    let map = {};
+    let min = -1;
+
+    for (let x = 0; x < s.length; x++) {
+        if (map[s[x]] !== undefined) {
+            map[s[x]] = null;
+        } else {
+            map[s[x]] = x;
+        }
+    }
+
+    for (let item in map) {
+        if (map[item] !== null && (min === -1 || map[item] < min)) {
+            min = map[item];
+        }
+    }
+
+    return min;
+};
+
+
+/** 
+ * 389. Find the Difference
+ * @param {string} s
+ * @param {string} t
+ * @return {character}
+ */
+var findTheDifference = function (s, t) {
+    let map = {};
+
+    for (let x = 0; x < t.length; x++) {
+        if (map[t[x]]) {
+            map[t[x]]++;
+        } else {
+            map[t[x]] = 1;
+        }
+    }
+
+    for (let x = 0; x < s.length; x++) {
+        if (!map[s[x]]) return s[x];
+        if (map[s[x]] === 1) delete map[s[x]];
+        map[s[x]]--;
+    }
+
+    return Object.keys(map)[0];
+};
+
+
+/** 
+ * 392. Is Subsequence
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isSubsequence = function (s, t) {
+    let ptr = 0;
+
+    for (let x = 0; x < t.length; x++) {
+        if (ptr === s.length) return true;
+        if (t[x] === s[ptr]) ptr++;
+    }
+
+    return ptr === s.length;
+};
+
+
+/** 
+ * 404. Sum of Left Leaves
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumOfLeftLeaves = function (root) {
+    let sum = 0;
+
+    const traverse = node => {
+        if (!node) return;
+        if (node.left && !node.left.left && !node.left.right) sum += node.left.val;
+        if (node.left) traverse(node.left);
+        if (node.right) traverse(node.right);
+    };
+
+    traverse(root);
+
+    return sum;
+};
+
+
+/** 
+ * 409. Longest Palindrome
+ * @param {string} s
+ * @return {number}
+ */
+var longestPalindrome = function (s) {
+    let map = {};
+    let count = 0;
+    let hasOdd = false;
+
+    for (let x = 0; x < s.length; x++) {
+        if (map[s[x]]) {
+            map[s[x]]++;
+        } else {
+            map[s[x]] = 1;
+        }
+    }
+
+    for (let item in map) {
+        if (map[item] % 2 === 0) {
+            count += map[item];
+            continue;
+        }
+
+        if (!hasOdd) {
+            count += map[item];
+            hasOdd = true;
+            continue;
+        }
+
+        if (map[item] > 1) {
+            count += map[item] - 1;
+        }
+    }
+
+    return count;
+};
+
+
+/** 
+ * 412. Fizz Buzz
+ * @param {number} n
+ * @return {string[]}
+ */
+var fizzBuzz = function (n) {
+    return [...Array(n).keys()].map(x => {
+        if ((x + 1) % 15 === 0) return "FizzBuzz";
+        if ((x + 1) % 3 === 0) return "Fizz";
+        if ((x + 1) % 5 === 0) return "Buzz";
+        return (x + 1).toString();
+    });
+};
+
+
+/** 
+ * 414. Third Maximum Number
+ * @param {number[]} nums
+ * @return {number}
+ */
+var thirdMax = function (nums) {
+    let max, max2, max3;
+
+    for (let x = 0; x < nums.length; x++) {
+        if (max === nums[x] || max2 === nums[x] || max3 === nums[x]) {
+            continue;
+        }
+
+        if (max === undefined || nums[x] > max) {
+            max3 = max2;
+            max2 = max;
+            max = nums[x];
+            continue;
+        }
+
+        if (max2 === undefined || nums[x] > max2) {
+            max3 = max2;
+            max2 = nums[x];
+            continue;
+        }
+
+        if (max3 === undefined || nums[x] > max3) {
+            max3 = nums[x];
+            continue;
+        }
+    }
+
+    return max3 === undefined ? max : max3;
+};
+
+
+/** 
+ * 415. Add Strings
+ * @param {string} num1
+ * @param {string} num2
+ * @return {string}
+ */
+var addStrings = function (num1, num2) {
+    let max = num1.length > num2.length ? num1 : num2;
+    let min = num1.length <= num2.length ? num1 : num2;
+    let result = '';
+    let carry = 0;
+
+    while (min.length !== max.length) min = "0" + min;
+
+    for (let x = min.length - 1; x >= 0; x--) {
+        let sum = parseInt(min[x]) + parseInt(max[x]) + carry;
+
+        carry = 0;
+
+        if (sum >= 10) {
+            carry = 1;
+            sum -= 10;
+        }
+
+        result = sum.toString() + result;
+    }
+
+    return `${carry ? "1" : ''}${result}`;
+};
+
+
+/** 434. Number of Segments in a String
+ * @param {string} s
+ * @return {number}
+ */
+var countSegments = function (s) {
+    let count = 0;
+    let curr = false;
+
+    for (let x = 0; x < s.length; x++) {
+        if (s[x] !== ' ') {
+            curr = true;
+            continue;
+        }
+
+        if (curr) count++;
+        curr = false;
+    }
+
+    if (curr) count++;
+
+    return count;
+};
