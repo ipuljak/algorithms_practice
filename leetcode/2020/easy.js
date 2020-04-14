@@ -2348,7 +2348,8 @@ var addStrings = function (num1, num2) {
 };
 
 
-/** 434. Number of Segments in a String
+/** 
+ * 434. Number of Segments in a String
  * @param {string} s
  * @return {number}
  */
@@ -2367,6 +2368,59 @@ var countSegments = function (s) {
     }
 
     if (curr) count++;
+
+    return count;
+};
+
+
+/** 
+ * 437. Path Sum III - Slow (need to be able to hashmap nodes for faster runtime)
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {number}
+ */
+var pathSum = function (root, sum) {
+    let count = 0;
+    let used = [];
+
+    const traverse = (node, total, isNew = false) => {
+        if (!node) return;
+        if (isNew && used.includes(node)) return;
+        if (isNew) used.push(node);
+        if ((node.val + total) === sum) count++;
+
+        traverse(node.left, node.val + total);
+        traverse(node.right, node.val + total);
+        traverse(node.left, 0, true);
+        traverse(node.right, 0, true);
+    };
+
+    traverse(root, 0, true);
+
+    return count;
+};
+
+
+/** 
+ * 441. Arranging Coins
+ * @param {number} n
+ * @return {number}
+ */
+var arrangeCoins = function (n) {
+    let count = 0;
+    let index = 1;
+
+    while (index <= n) {
+        count++;
+        index += count + 1;
+    }
 
     return count;
 };
