@@ -2424,3 +2424,39 @@ var arrangeCoins = function (n) {
 
     return count;
 };
+
+
+/** 
+ * 443. String Compression
+ * @param {character[]} chars
+ * @return {number}
+ */
+var compress = function (chars) {
+    let ptr1 = 0, ptr2 = 0;
+
+    while (ptr1 <= chars.length) {
+        if (chars[ptr2] === chars[ptr1 + 1]) {
+            ptr1++;
+            continue;
+        }
+
+        if (ptr1 === ptr2) {
+            ptr1++;
+            ptr2 = ptr1;
+            continue;
+        }
+
+        let diff = (ptr1 - ptr2 + 1).toString();
+
+        chars.splice(ptr2, ptr1 - ptr2 - diff.length);
+
+        for (let x = 0; x < diff.length; x++) {
+            chars[ptr2 + x + 1] = diff[x];
+        }
+
+        ptr1 = ptr2 + diff.length + 1;
+        ptr2 = ptr1;
+    }
+
+    return chars.length;
+};
