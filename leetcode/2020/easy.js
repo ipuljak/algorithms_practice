@@ -2460,3 +2460,195 @@ var compress = function (chars) {
 
     return chars.length;
 };
+
+
+/** 
+ * 448. Find All Numbers Disappeared in an Array - O(n) extra space
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findDisappearedNumbers = function (nums) {
+    let arr = [];
+    let ans = [];
+
+    for (let x = 0; x < nums.length; x++) {
+        arr[nums[x]] = true;
+    }
+
+    for (let x = 1; x <= nums.length; x++) {
+        if (!arr[x]) ans.push(x);
+    }
+
+    return ans;
+};
+
+
+/** 
+ * 448. Find All Numbers Disappeared in an Array
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findDisappearedNumbers = function (nums) {
+    let result = [...Array(nums.length).keys()];
+
+    for (let x = 0; x < nums.length; x++) {
+        result[nums[x] - 1] = null;
+    }
+
+    return result
+        .filter(x => x !== null)
+        .map(x => x + 1);
+};
+
+
+/** 
+ * 453. Minimum Moves to Equal Array Elements
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minMoves = function (nums) {
+    if (!nums || nums.length < 2) return 0;
+
+    let min = nums[0];
+    let total = 0;
+
+    for (let x = 0; x < nums.length; x++) {
+        min = Math.min(min, nums[x]);
+        total += nums[x];
+    }
+
+    return total - min * nums.length;
+};
+
+
+/** 
+ * 455. Assign Cookies
+ * @param {number[]} g
+ * @param {number[]} s
+ * @return {number}
+ */
+var findContentChildren = function (g, s) {
+    g = g.sort((a, b) => a - b);
+    s = s.sort((a, b) => a - b);
+
+    let count = 0;
+    let i = 0, j = 0;
+
+    while (i < s.length) {
+        if (s[i] >= g[j]) {
+            count++;
+            j++;
+        }
+
+        i++;
+    }
+
+    return count;
+};
+
+
+/** 
+ * 459. Repeated Substring Pattern
+ * @param {string} s
+ * @return {boolean}
+ */
+var repeatedSubstringPattern = function (s) {
+    for (let x = Math.floor(s.length / 2); x > 0; x--) {
+        if (s.length % x !== 0) continue;
+
+        let match = true;
+
+        for (let y = x; y < s.length; y += x) {
+            if (s.slice(0, x) !== s.slice(y, y + x)) {
+                match = false;
+                break;
+            }
+        }
+
+        if (match) return true;
+    }
+
+    return false;
+};
+
+
+/** 
+ * 461. Hamming Distance
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+var hammingDistance = function (x, y) {
+    let z = x ^ y;
+    let count = 0;
+
+    while (z) {
+        z = z & (z - 1);
+        count++;
+    }
+
+    return count;
+};
+
+
+/** 
+ * 463. Island Perimeter
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var islandPerimeter = function (grid) {
+    let perimeter = 0;
+
+    for (let x = 0; x < grid.length; x++) {
+        for (let y = 0; y < grid[x].length; y++) {
+            if (!grid[x][y]) continue;
+
+            // Top
+            if (!grid[x - 1] || !grid[x - 1][y]) perimeter++;
+
+            // Bottom
+            if (!grid[x + 1] || !grid[x + 1][y]) perimeter++;
+
+            // Left
+            if (!grid[x][y - 1]) perimeter++;
+
+            // Right
+            if (!grid[x][y + 1]) perimeter++;
+        }
+    }
+
+    return perimeter;
+};
+
+
+/** 
+ * 476. Number Complement
+ * @param {number} num
+ * @return {number}
+ */
+var findComplement = function (num) {
+    const mask = '1'.repeat(num.toString(2).length)
+    return num ^ parseInt(mask, 2)
+};
+
+
+/** 
+ * 482. License Key Formatting
+ * @param {string} S
+ * @param {number} K
+ * @return {string}
+ */
+var licenseKeyFormatting = function (S, K) {
+    S = S.split('-').join('').toUpperCase();
+
+    let ans = '';
+    let group = '';
+    let x = S.length;
+
+    while (x > K) {
+        ans = '-' + S.slice(x - K, x) + ans;
+        x -= K;
+    }
+
+    return S.slice(0, x) + ans;
+};
