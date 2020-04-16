@@ -2652,3 +2652,80 @@ var licenseKeyFormatting = function (S, K) {
 
     return S.slice(0, x) + ans;
 };
+
+
+/** 
+ * 485. Max Consecutive Ones
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMaxConsecutiveOnes = function (nums) {
+    let count = 0;
+    let max = 0;
+
+    for (let x = 0; x < nums.length; x++) {
+        if (nums[x]) {
+            count++;
+            continue;
+        }
+
+        if (count > max) {
+            max = count;
+        }
+
+        count = 0;
+    }
+
+    if (count > max) max = count;
+
+    return max;
+};
+
+
+/** 
+ * 492. Construct the Rectangle - Slow
+ * @param {number} area
+ * @return {number[]}
+ */
+var constructRectangle = function (area) {
+    let L = area;
+    let W = 1;
+    let R;
+
+    while ((L >= W)) {
+        if ((L * W) === area) {
+            if (!R || (R[0] - R[1]) > (L - W)) {
+                R = [L, W];
+            }
+
+            L--;
+            W++;
+            continue;
+        }
+
+        (L * W) > area ? L-- : W++;
+    }
+
+    return R;
+};
+
+
+/** 
+ * 492. Construct the Rectangle - Fast
+ * @param {number} area
+ * @return {number[]}
+ */
+var constructRectangle = function (area) {
+    let W = Math.floor(Math.sqrt(area));
+
+    while (W > 0) {
+        let L = area / W;
+
+        // Check if it is a valid integer
+        if (L % 1 === 0) {
+            return [L, W];
+        }
+
+        W--;
+    }
+};
