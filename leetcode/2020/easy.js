@@ -2729,3 +2729,56 @@ var constructRectangle = function (area) {
         W--;
     }
 };
+
+
+/** 
+ * 496. Next Greater Element I
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var nextGreaterElement = function (nums1, nums2) {
+    let map = {};
+
+    for (let x = 0; x < nums2.length; x++) {
+        map[nums2[x]] = x;
+    }
+
+    return nums1.map(x => {
+        let arr = nums2.slice(map[x] + 1);
+        let diff = -1;
+
+        for (let y = 0; y < arr.length; y++) {
+            if (arr[y] <= x) continue;
+            diff = arr[y];
+            break;
+        }
+
+        return diff;
+    });
+};
+
+
+/** 
+ * 500. Keyboard Row
+ * @param {string[]} words
+ * @return {string[]}
+ */
+var findWords = function (words) {
+    let m1 = { q: true, w: true, e: true, r: true, t: true, y: true, u: true, i: true, o: true, p: true };
+    let m2 = { a: true, s: true, d: true, f: true, g: true, h: true, j: true, k: true, l: true };
+    let m3 = { z: true, x: true, c: true, v: true, b: true, n: true, m: true };
+
+    return words.filter(word => {
+        if (word.length === 1) return true;
+
+        let lowercase = word.toLowerCase();
+        let map = m1[lowercase[0]] ? m1 : m2[lowercase[0]] ? m2 : m3;
+
+        for (let x = 1; x < lowercase.length; x++) {
+            if (!map[lowercase[x]]) return false;
+        }
+
+        return true;
+    });
+};
