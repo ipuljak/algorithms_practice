@@ -199,3 +199,151 @@ var myAtoi = function (str) {
     if (value < -(2 ** 31)) return -(2 ** 31);
     return value;
 };
+
+
+/** 
+ * 11. Container With Most Water
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function (height) {
+    let max = 0;
+    let ptr1 = 0;
+    let ptr2 = height.length - 1;
+
+    while (ptr1 !== ptr2) {
+        let total = (ptr2 - ptr1) * Math.min(height[ptr1], height[ptr2]);
+
+        if (total > max) max = total;
+
+        if (height[ptr2] > height[ptr1]) {
+            ptr1++;
+        } else {
+            ptr2--;
+        }
+    }
+
+    return max;
+};
+
+
+/** 
+ * 12. Integer to Roman
+ * @param {number} num
+ * @return {string}
+ */
+var intToRoman = function (num) {
+    let str = '';
+    let romans = [
+        [1000, "M"],
+        [900, "CM"],
+        [500, "D"],
+        [400, "CD"],
+        [100, "C"],
+        [90, "XC"],
+        [50, "L"],
+        [40, "XL"],
+        [10, "X"],
+        [9, "IX"],
+        [5, "V"],
+        [4, "IV"],
+        [1, "I"]
+    ]
+
+    const getClosestRoman = val => {
+        for (let x = 0; x < romans.length; x++) {
+            if (val >= romans[x][0]) {
+                return romans[x];
+            }
+        }
+    }
+
+    while (num !== 0) {
+        let val = getClosestRoman(num);
+        str += val[1];
+        num -= val[0];
+    }
+
+    return str;
+};
+
+
+/** 
+ * 15. 3Sum
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function (nums) {
+    if (nums.length < 3) return [];
+
+    let result = [];
+
+    nums.sort((a, b) => a - b);
+
+    for (let x = 0; x < nums.length - 2; x++) {
+        if (nums[x] > 0) break;
+        if (x > 0 && nums[x] === nums[x - 1]) continue;
+        let y = x + 1;
+        let z = nums.length - 1;
+
+        while (y < z) {
+            let sum = nums[x] + nums[y] + nums[z];
+            if (sum === 0) {
+                result.push([nums[x], nums[y], nums[z]]);
+
+                while (nums[y] === nums[y + 1]) y++;
+                while (nums[z] === nums[z - 1]) z--;
+
+                y++;
+                z--;
+
+                continue;
+            }
+
+            if (sum < 0) {
+                y++;
+                continue;
+            }
+
+            if (sum > 0) {
+                z--;
+                continue;
+            }
+        }
+    }
+
+    return result;
+};
+
+
+/** 
+ * 16. 3Sum Closest
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var threeSumClosest = function (nums, target) {
+    let closest;
+
+    nums.sort((a, b) => a - b);
+
+    for (let x = 0; x < nums.length - 1; x++) {
+        let y = x + 1;
+        let z = nums.length - 1;
+
+        while (y < z) {
+            let sum = nums[x] + nums[y] + nums[z];
+            if (sum === target) return target;
+            let diff = Math.abs(sum - target);
+            if (closest === undefined || diff < (Math.abs(closest - target))) closest = sum;
+
+            if (sum > target) {
+                z--;
+            } else {
+                y++;
+            }
+        }
+    }
+
+    return closest;
+};
