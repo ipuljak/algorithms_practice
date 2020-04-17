@@ -347,3 +347,130 @@ var threeSumClosest = function (nums, target) {
 
     return closest;
 };
+
+
+/** 
+ * 17. Letter Combinations of a Phone Number
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function (digits) {
+    const map = {
+        2: 'abc',
+        3: 'def',
+        4: 'ghi',
+        5: 'jkl',
+        6: 'mno',
+        7: 'pqrs',
+        8: 'tuv',
+        9: 'wxyz'
+    };
+
+    const traverse = d => {
+        if (!d.length) return [];
+        if (d.length === 1) return map[d[0]].split('');
+
+        const next = traverse(d.slice(1));
+
+        const result = [];
+
+        for (let x = 0; x < map[d[0]].length; x++) {
+            for (let y = 0; y < next.length; y++) {
+                result.push(map[d[0]][x] + next[y]);
+            }
+        }
+
+        return result;
+    };
+
+    return traverse(digits);
+};
+
+
+/** 
+ * 18. 4Sum
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */
+var fourSum = function (nums, target) {
+    if (nums.length < 4) return [];
+
+    let result = [];
+
+    nums.sort((a, b) => a - b);
+
+    for (let x = 0; x < nums.length - 3; x++) {
+        if (nums[x] === nums[x - 1]) continue;
+
+        for (let y = nums.length - 1; y > x + 2; y--) {
+            if (nums[y] === nums[y + 1]) continue;
+
+            let a = x + 1;
+            let b = y - 1;
+
+            while (a < b) {
+                let sum = nums[x] + nums[y] + nums[a] + nums[b];
+                if (sum === target) {
+                    result.push([nums[x], nums[y], nums[a], nums[b]]);
+
+                    while (nums[a] === nums[a + 1]) a++;
+                    while (nums[b] === nums[b - 1]) b--;
+
+                    a++;
+                    b--;
+
+                    continue;
+                }
+
+                if (sum < target) {
+                    a++;
+                    continue;
+                }
+
+                if (sum > target) {
+                    b--;
+                    continue;
+                }
+            }
+        }
+    }
+
+    return result;
+};
+
+
+/** 
+ * 19. Remove Nth Node From End of List
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */
+var removeNthFromEnd = function (head, n) {
+    let ptr1 = head;
+    let ptr2 = head;
+    let count = 0;
+
+    while (count !== n) {
+        ptr2 = ptr2.next;
+        count++;
+    }
+
+    if (!ptr2) return head.next;
+
+    while (ptr2.next) {
+        ptr1 = ptr1.next;
+        ptr2 = ptr2.next;
+    }
+
+    ptr1.next = ptr1.next.next;
+
+    return head;
+};
