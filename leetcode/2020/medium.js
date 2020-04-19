@@ -474,3 +474,88 @@ var removeNthFromEnd = function (head, n) {
 
     return head;
 };
+
+
+/** 
+ * 22. Generate Parentheses
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function (n) {
+    const result = [];
+
+    const generate = (l, r, s) => {
+        if (l > r) return;
+        if (!l && !r) result.push(s);
+        if (l > 0) generate(l - 1, r, s + '(');
+        if (r > 0) generate(l, r - 1, s + ')');
+    };
+
+    generate(n, n, '');
+
+    return result;
+};
+
+
+/** 
+ * 24. Swap Nodes in Pairs
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var swapPairs = function (head) {
+    if (!head) return null;
+
+    let temp = new ListNode();
+    temp.next = head;
+
+    let prev = temp;
+
+    while (prev.next && prev.next.next) {
+        let a = prev.next;
+        let b = prev.next.next;
+
+        a.next = b.next;
+        b.next = a;
+        prev.next = b;
+
+        prev = a;
+    }
+
+    return temp.next;
+};
+
+
+/** 
+ * 29. Divide Two Integers - Slow?
+ * @param {number} dividend
+ * @param {number} divisor
+ * @return {number}
+ */
+var divide = function (dividend, divisor) {
+    const DIV_MIN = -(2 ** 31);
+    const DIV_MAX = (2 ** 31) - 1;
+
+    let count = 0;
+    let isNegative = (dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0);
+
+    dividend = Math.abs(dividend);
+    divisor = Math.abs(divisor);
+
+    while (dividend >= divisor) {
+        dividend -= divisor;
+        count++;
+    }
+
+    count = isNegative ? -count : count;
+
+    if (count > DIV_MAX || count < DIV_MIN) return DIV_MAX;
+
+    return count;
+};
