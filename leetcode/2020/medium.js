@@ -559,3 +559,129 @@ var divide = function (dividend, divisor) {
 
     return count;
 };
+
+
+/** 
+ * 33. Search in Rotated Sorted Array
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var search = function (nums, target) {
+    let x = 0;
+    let y = nums.length - 1;
+
+    while (x < y) {
+        let mid = Math.floor((x + y) / 2);
+
+        if (nums[mid] === target) return mid;
+        if (nums[x] === target) return x;
+        if (nums[y] === target) return y;
+
+        if (nums[mid] > nums[x]) {
+            if (target > nums[x] && target < nums[mid]) {
+                y = mid - 1;
+            } else {
+                x = mid + 1;
+            }
+        } else if (nums[mid] < nums[y]) {
+            if (target > nums[mid] && target < nums[y]) {
+                x = mid + 1;
+            } else {
+                y = mid - 1;
+            }
+        } else {
+            return -1;
+        }
+    }
+
+    return nums[x] === target ? x : -1;
+};
+
+
+/** 
+ * 34. Find First and Last Position of Element in Sorted Array
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var searchRange = function (nums, target) {
+    if (nums.length === 1 && nums[0] === target) return [0, 0];
+    let x = 0;
+    let y = nums.length - 1;
+
+    while (x <= y) {
+        let mid = Math.floor((x + y) / 2);
+
+        if (nums[mid] === target) {
+            x = mid;
+            y = mid;
+
+            while (nums[x] === target) x--;
+            while (nums[y] === target) y++;
+            return [++x, --y];
+        }
+
+        if (target > nums[mid]) {
+            x = mid + 1;
+        } else {
+            y = mid - 1;
+        }
+    }
+
+    return [-1, -1];
+};
+
+
+/** 
+ * 36. Valid Sudoku
+ * @param {character[][]} board
+ * @return {boolean}
+ */
+var isValidSudoku = function (board) {
+    // Check that the array is unique
+    const allUniques = arr => {
+        let map = {};
+
+        for (let x = 0; x < arr.length; x++) {
+            if (arr[x] === ".") continue;
+            if (map[arr[x]]) return false;
+            map[arr[x]] = true;
+        }
+
+        return true;
+    };
+
+    // Check rows
+    for (let x = 0; x < board.length; x++) {
+        if (!allUniques(board[x])) return false;
+    }
+
+    // Check columns
+    for (let x = 0; x < board.length; x++) {
+        let arr = [];
+
+        for (let y = 0; y < board.length; y++) {
+            arr.push(board[y][x])
+        }
+
+        if (!allUniques(arr)) return false;
+    }
+
+    // Check squares
+    for (let x = 0; x < 8; x += 3) {
+        for (let y = 0; y < 8; y += 3) {
+            let arr = [];
+
+            for (let i = x; i < x + 3; i++) {
+                for (let j = y; j < y + 3; j++) {
+                    arr.push(board[i][j]);
+                }
+            }
+
+            if (!allUniques(arr)) return false;
+        }
+    }
+
+    return true;
+};
