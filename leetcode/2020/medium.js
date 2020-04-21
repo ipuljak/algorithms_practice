@@ -685,3 +685,70 @@ var isValidSudoku = function (board) {
 
     return true;
 };
+
+
+/** 
+ * 39. Combination Sum
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function (candidates, target) {
+    if (!candidates || !candidates.length) return [];
+
+    candidates.sort((a, b) => a - b);
+
+    const results = [];
+
+    const findCombos = (combos, goal, index) => {
+        if (goal === 0) {
+            results.push(combos.slice());
+            return;
+        }
+
+        for (let x = index; x < candidates.length; x++) {
+            if (goal < 0) break;
+            combos.push(candidates[x]);
+            findCombos(combos, goal - candidates[x], x);
+            combos.pop();
+        }
+    };
+
+    findCombos([], target, 0);
+
+    return results;
+};
+
+
+/** 40. Combination Sum II
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum2 = function (candidates, target) {
+    if (!candidates || !candidates.length) return [];
+
+    candidates.sort((a, b) => a - b);
+
+    const results = [];
+
+    const findCombos = (combos, goal, index) => {
+        if (goal === 0) {
+            results.push(combos.slice());
+            return;
+        }
+
+        for (let x = index; x < candidates.length; x++) {
+            if (x !== index && candidates[x] === candidates[x - 1]) continue;
+            if (goal < 0) break;
+
+            combos.push(candidates[x]);
+            findCombos(combos, goal - candidates[x], x + 1);
+            combos.pop();
+        }
+    };
+
+    findCombos([], target, 0);
+
+    return results;
+};
