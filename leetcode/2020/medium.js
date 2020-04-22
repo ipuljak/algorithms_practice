@@ -720,7 +720,8 @@ var combinationSum = function (candidates, target) {
 };
 
 
-/** 40. Combination Sum II
+/** 
+ * 40. Combination Sum II
  * @param {number[]} candidates
  * @param {number} target
  * @return {number[][]}
@@ -751,4 +752,44 @@ var combinationSum2 = function (candidates, target) {
     findCombos([], target, 0);
 
     return results;
+};
+
+
+/** 
+ * 43. Multiply Strings
+ * @param {string} num1
+ * @param {string} num2
+ * @return {string}
+ */
+var multiply = function (num1, num2) {
+    if (!num1 || !num2 || num1 === "0" || num2 === "0") return "0";
+
+    const result = Array(num1.length + num2.length).fill(0);
+
+    const addToResult = (index, amount) => {
+        result[index] += amount;
+
+        while (index >= 0 && result[index] >= 10) {
+            if (index === 0) {
+                result.unshift(1);
+                return;
+            }
+
+            result[index] %= 10;
+            result[index - 1] += 1;
+            index--;
+        }
+    };
+
+    for (let x = num1.length - 1; x >= 0; x--) {
+        for (let y = num2.length - 1; y >= 0; y--) {
+            let index = result.length - (num1.length + num2.length - x - y - 2) - 1;
+            addToResult(index, (num1[x] * num2[y]) % 10);
+            addToResult(index - 1, Math.floor((num1[x] * num2[y]) / 10));
+        }
+    }
+
+    while (result[0] === 0) result.shift();
+
+    return result.join('');
 };
