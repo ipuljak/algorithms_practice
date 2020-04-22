@@ -793,3 +793,145 @@ var multiply = function (num1, num2) {
 
     return result.join('');
 };
+
+
+/** 
+ * 46. Permutations - Recursion (my solution)
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permute = function (nums) {
+    const results = [];
+
+    const findPerms = (perms, set) => {
+        if (!set.length) {
+            results.push(perms);
+            return;
+        }
+
+        for (let x = 0; x < set.length; x++) {
+            let newPerms = perms.slice();
+            let newSet = set.slice(0, x).concat(set.slice(x + 1));
+
+            newPerms.push(set[x]);
+            findPerms(newPerms, newSet);
+        }
+    };
+
+    findPerms([], nums);
+
+    return results;
+};
+
+
+/** 
+ * 46. Permutations - Backtracking (not mine)
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permute = function (nums) {
+    const results = [];
+
+    backtrack(nums, results);
+
+    return results;
+};
+
+function backtrack(nums, results, n = 0) {
+    if (n === nums.length - 1) {
+        results.push(nums.slice(0));
+        return;
+    }
+
+    for (let i = n; i < nums.length; i++) {
+        [nums[i], nums[n]] = [nums[n], nums[i]];
+        backtrack(nums, results, n + 1);
+        [nums[i], nums[n]] = [nums[n], nums[i]];
+    }
+}
+
+
+/** 
+ * 46. Permutations - Dynamic programming
+ * Take the previous result and insert the new value into each spot
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permute = function (nums, n = 0) {
+    if (n >= nums.length) return [[]];
+
+    const results = [];
+
+    const previous = permute(nums, n + 1);
+
+    for (let x = 0; x < previous.length; x++) {
+        for (let y = 0; y <= previous[x].length; y++) {
+            let prev = previous[x].slice();
+            prev.splice(y, 0, nums[n]);
+            results.push(prev);
+        }
+    }
+
+    return results;
+};
+
+
+/** 
+ * 47. Permutations II
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permuteUnique = function (nums) {
+    nums.sort((a, b) => a - b);
+
+    const results = [];
+
+    const findPerms = (perms, set) => {
+        if (!set.length) {
+            results.push(perms);
+            return;
+        }
+
+        for (let x = 0; x < set.length; x++) {
+            if (set[x] === set[x + 1]) continue;
+
+            let newPerms = perms.slice();
+            let newSet = set.slice(0, x).concat(set.slice(x + 1));
+
+            newPerms.push(set[x]);
+            findPerms(newPerms, newSet);
+        }
+    };
+
+    findPerms([], nums);
+
+    return results;
+};
+
+
+/** 
+ * 48. Rotate Image
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+var rotate = function (matrix) {
+    const swap = (x1, y1, x2, y2) => {
+        let temp = matrix[x1][y1];
+        matrix[x1][y1] = matrix[x2][y2];
+        matrix[x2][y2] = temp;
+    };
+
+    // First transpose the matrix
+    for (let x = 0; x < Math.floor(matrix.length / 2); x++) {
+        for (let y = 0; y < matrix.length; y++) {
+            swap(x, y, matrix.length - x - 1, y);
+        }
+    }
+
+    // Then flip the x, y positions for each item
+    for (let x = 0; x < matrix.length; x++) {
+        for (let y = x; y < matrix.length; y++) {
+            swap(x, y, y, x);
+        }
+    }
+};
