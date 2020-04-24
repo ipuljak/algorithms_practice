@@ -935,3 +935,116 @@ var rotate = function (matrix) {
         }
     }
 };
+
+
+/** 
+ * 49. Group Anagrams
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
+var groupAnagrams = function (strs) {
+    const map = {};
+
+    for (let x = 0; x < strs.length; x++) {
+        const sorted = strs[x].split('').sort().join('');
+
+        if (map[sorted]) {
+            map[sorted].push(strs[x]);
+        } else {
+            map[sorted] = [strs[x]];
+        }
+    }
+
+    return Object.keys(map).map(x => map[x]);
+};
+
+
+/** 
+ * 50. Pow(x, n) - Slooooooow
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+var myPow = function (x, n) {
+    if (!n) return 1;
+
+    let result = 1;
+
+    if (n < 0) {
+        x = 1 / x;
+        n = Math.abs(n);
+    }
+
+    while (n % 2 === 0) {
+        x *= x;
+        n = n / 2;
+    }
+
+    while (n !== 0) {
+        result *= x;
+        n--;
+    }
+
+    return result;
+};
+
+
+/** 
+ * 50. Pow(x, n) - Recursion
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+var myPow = function (x, n) {
+    if (n === 0) return 1;
+    if (n === 1) return x;
+
+    if (n < 0) {
+        x = 1 / x;
+        n = Math.abs(n);
+    }
+
+    return n % 2 === 0 ?
+        myPow(x * x, n / 2) :
+        myPow(x * x, (n - 1) / 2) * x;
+};
+
+
+/** 
+ * 54. Spiral Matrix
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var spiralOrder = function (matrix) {
+    if (!matrix || !matrix.length) return [];
+
+    const results = [];
+
+    for (let x = 0; x < Math.min(Math.ceil(matrix.length / 2), Math.ceil(matrix[0].length / 2)); x++) {
+        // Right
+        for (let y = x; y < matrix[0].length - x; y++) {
+            results.push(matrix[x][y]);
+        }
+
+        // Down
+        for (let y = x + 1; y < matrix.length - x; y++) {
+            results.push(matrix[y][matrix[0].length - x - 1]);
+        }
+
+        // Skip single row / columns
+        if (matrix[0].length - (2 * x) === 1) continue;
+        if (matrix.length % 2 !== 0 && x === Math.floor(matrix.length / 2)) continue;
+
+        // Left
+        for (let y = matrix[0].length - x - 2; y >= x; y--) {
+            results.push(matrix[matrix.length - x - 1][y]);
+        }
+
+        // Up
+        for (let y = matrix.length - x - 2; y >= 1 + x; y--) {
+            results.push(matrix[y][x]);
+        }
+    }
+
+    return results;
+};
