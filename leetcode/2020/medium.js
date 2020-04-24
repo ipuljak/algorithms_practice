@@ -1123,3 +1123,47 @@ var merge = function (intervals) {
 
     return results;
 };
+
+
+/** 
+ * 59. Spiral Matrix II
+ * @param {number} n
+ * @return {number[][]}
+ */
+var generateMatrix = function (n) {
+    const matrix = [];
+
+    for (let x = 0; x < n; x++) {
+        matrix.push(Array(n));
+    }
+
+    let count = 1;
+
+    for (let x = 0; x < n / 2; x++) {
+        // Right
+        for (let y = x; y < n - x; y++) {
+            matrix[x][y] = count;
+            count++;
+        }
+
+        // Down
+        for (let y = x + 1; y < n - x; y++) {
+            matrix[y][n - x - 1] = count;
+            count++;
+        }
+
+        // Left
+        for (let y = n - x - 2; y >= x; y--) {
+            matrix[n - x - 1][y] = count;
+            count++;
+        }
+
+        // Up
+        for (let y = n - x - 2; y >= x + 1; y--) {
+            matrix[y][x] = count;
+            count++;
+        }
+    }
+
+    return matrix;
+};
