@@ -1048,3 +1048,78 @@ var spiralOrder = function (matrix) {
 
     return results;
 };
+
+
+/** 
+ * 55. Jump Game - Slow DP
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canJump = function (nums) {
+    nums[nums.length - 1] = true;
+
+    for (let x = nums.length - 2; x >= 0; x--) {
+        if (nums[x] === 0) {
+            nums[x] = false;
+            continue;
+        }
+
+        for (let y = 1; y <= nums[x]; y++) {
+            if (nums[x + y] === true) {
+                nums[x] = true;
+                y = Infinity;
+            }
+        }
+
+        if (nums[x] !== true) nums[x] = false;
+    }
+
+    return nums[0];
+};
+
+
+/** 
+ * 55. Jump Game - Faster greedy
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canJump = function (nums) {
+    let max = 0;
+
+    for (let x = 0; x < nums.length; x++) {
+        max = Math.max(max, x + nums[x]);
+        if (max >= nums.length - 1) return true;
+        if (max <= x && nums[x] === 0) return false;
+    }
+
+    return false;
+};
+
+
+/** 
+ * 56. Merge Intervals
+ * @param {number[][]} intervals
+ * @return {number[][]}
+ */
+var merge = function (intervals) {
+    const results = [];
+
+    intervals.sort((a, b) => a[0] - b[0]);
+
+    for (let x = 0; x < intervals.length; x++) {
+        let lower = intervals[x][0];
+        let upper = intervals[x][1];
+        let index = x + 1;
+
+        inner:
+        for (let y = x + 1; y < intervals.length; y++) {
+            if (upper < intervals[y][0]) break inner;
+            if (upper < intervals[y][1]) upper = intervals[y][1];
+            x++;
+        }
+
+        results.push([lower, upper]);
+    }
+
+    return results;
+};
