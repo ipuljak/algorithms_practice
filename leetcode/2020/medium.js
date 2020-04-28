@@ -1198,3 +1198,118 @@ var getPermutation = function (n, k) {
 
     return result;
 };
+
+
+/** 
+ * 61. Rotate List
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+var rotateRight = function (head, k) {
+    if (!head) return null;
+
+    // Calculate the length of the list
+    let length = 0;
+    let node = head;
+
+    while (node) {
+        length++;
+        node = node.next;
+    }
+
+    if (k % length === 0) return head;
+
+    let diff = length - (k % length);
+
+    node = head;
+
+    while (diff > 1) {
+        node = node.next;
+        diff--;
+    }
+
+    // Set the new head
+    let newHead = node.next;
+    node.next = null;
+    node = newHead;
+
+    // Traverse to the end and set the tail to the old head
+    while (node.next) node = node.next;
+    node.next = head;
+
+    return newHead;
+};
+
+
+/** 
+ * 62. Unique Paths
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function (m, n) {
+    const dp = [];
+
+    // Create empty DP matrix
+    for (let x = 0; x < n; x++) dp.push(Array(m));
+
+    // Only one possible way to explore row 1 and column 1 - so fill in with 1's
+    for (let x = 0; x < m; x++) dp[0][x] = 1;
+    for (let x = 0; x < n; x++) dp[x][0] = 1;
+
+    for (let x = 1; x < n; x++) {
+        for (let y = 1; y < m; y++) {
+            dp[x][y] = dp[x - 1][y] + dp[x][y - 1];
+        }
+    }
+
+    return dp[n - 1][m - 1];
+};
+
+
+/** 
+ * 62. Unique Paths - Even simpler
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function (m, n) {
+    const dp = [];
+
+    for (let x = 0; x < n; x++) dp.push(Array(m).fill(1));
+
+    for (let x = 1; x < n; x++) {
+        for (let y = 1; y < m; y++) {
+            dp[x][y] = dp[x - 1][y] + dp[x][y - 1];
+        }
+    }
+
+    return dp[n - 1][m - 1];
+};
+
+
+/** 
+ * 63. Unique Paths II
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function (obstacleGrid) {
+    for (let x = 0; x < obstacleGrid.length; x++) {
+        for (let y = 0; y < obstacleGrid[0].length; y++) {
+            if (!x && !y) obstacleGrid[x][y] !== 1 ? obstacleGrid[x][y] = 1 : obstacleGrid[x][y] = 0;
+            else if (!y) obstacleGrid[x][y] !== 1 ? obstacleGrid[x][y] = obstacleGrid[x - 1][y] : obstacleGrid[x][y] = 0;
+            else if (!x) obstacleGrid[x][y] !== 1 ? obstacleGrid[x][y] = obstacleGrid[x][y - 1] : obstacleGrid[x][y] = 0;
+            else obstacleGrid[x][y] !== 1 ? obstacleGrid[x][y] = obstacleGrid[x - 1][y] + obstacleGrid[x][y - 1] : obstacleGrid[x][y] = 0;
+        }
+    }
+
+    return obstacleGrid[obstacleGrid.length - 1][obstacleGrid[0].length - 1];
+};
