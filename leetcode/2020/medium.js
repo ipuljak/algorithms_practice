@@ -1167,3 +1167,34 @@ var generateMatrix = function (n) {
 
     return matrix;
 };
+
+
+/** 
+ * 60. Permutation Sequence
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
+var getPermutation = function (n, k) {
+    let result;
+    let nums = '';
+
+    for (let x = 1; x <= n; x++) nums += x;
+
+    const findPerms = (perms, set) => {
+        if (!set.length) {
+            k--;
+            if (k === 0) result = perms;
+            return;
+        }
+
+        for (let x = 0; x < set.length; x++) {
+            if (k === 0) return;
+            findPerms(perms + set[x], set.slice(0, x) + set.slice(x + 1));
+        }
+    };
+
+    findPerms('', nums);
+
+    return result;
+};
