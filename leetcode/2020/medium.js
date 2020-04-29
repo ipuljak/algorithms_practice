@@ -1313,3 +1313,35 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
 
     return obstacleGrid[obstacleGrid.length - 1][obstacleGrid[0].length - 1];
 };
+
+
+/** 
+ * 64. Minimum Path Sum
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function (grid) {
+    const dp = [];
+
+    for (let x = 0; x < grid.length; x++) {
+        dp.push(Array(grid[0].length).fill(0));
+    }
+
+    dp[0][0] = grid[0][0];
+
+    for (let x = 1; x < dp.length; x++) {
+        dp[x][0] = dp[x - 1][0] + grid[x][0];
+    }
+
+    for (let x = 1; x < dp[0].length; x++) {
+        dp[0][x] = dp[0][x - 1] + grid[0][x];
+    }
+
+    for (let x = 1; x < dp.length; x++) {
+        for (let y = 1; y < dp[x].length; y++) {
+            dp[x][y] = Math.min(dp[x - 1][y], dp[x][y - 1]) + grid[x][y];
+        }
+    }
+
+    return dp[grid.length - 1][grid[0].length - 1];
+};
