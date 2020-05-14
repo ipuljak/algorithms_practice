@@ -30,3 +30,19 @@ func reverse(x int) int {
     
     return result
 }
+
+
+// 9. Palindrome Number
+func isPalindrome(x int) bool {
+    reverse := 0
+    y := x
+    
+    for y > 0 {
+        remainder := y % 10
+        reverse *= 10
+        reverse += remainder
+        y /= 10
+    }
+    
+    return reverse == x
+}
