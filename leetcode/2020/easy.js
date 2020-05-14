@@ -1,3 +1,95 @@
+/**
+ * 13. Roman to Integer
+ * @param {string} s
+ * @return {number}
+ */
+var romanToInt = function (s) {
+    let letters = s.split('');
+    let count = 0;
+
+    for (let x = 0; x < s.length; x++) {
+        switch (letters[x]) {
+            case "I":
+                if (letters[x + 1] && letters[x + 1] !== "I") {
+                    count -= 1;
+                    break;
+                }
+
+                count += 1;
+                break;
+
+            case "V":
+                count += 5;
+                break;
+
+            case "X":
+                if (letters[x + 1] === "L" || letters[x + 1] === "C") {
+                    count -= 10;
+                    continue;
+                }
+
+                count += 10;
+                break;
+
+            case "L":
+                count += 50;
+                break;
+
+            case "C":
+                if (letters[x + 1] === "D" || letters[x + 1] === "M") {
+                    count -= 100;
+                    continue;
+                }
+
+                count += 100;
+                break;
+
+            case "D":
+                count += 500;
+                break;
+
+            case "M":
+                count += 1000;
+                break;
+        }
+    }
+
+    return count;
+};
+
+
+/**
+ * 14. Longest Common Prefix
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function (strs) {
+    let smallest;
+
+    for (let x = 0; x < strs.length; x++) {
+        if (!smallest || smallest.length > strs[x].length) {
+            smallest = strs[x];
+        }
+    }
+
+    let prefix = '';
+
+    if (!smallest) return '';
+
+    for (let x = 0; x < smallest.length; x++) {
+        for (let y = 0; y < strs.length; y++) {
+            if (strs[y][x] !== smallest[x]) {
+                return prefix;
+            }
+        }
+
+        prefix += smallest[x];
+    }
+
+    return prefix;
+};
+
+
 /** 
  * 35. Search Insert Position
  * @param {number[]} nums
